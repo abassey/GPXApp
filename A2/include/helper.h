@@ -14,6 +14,9 @@
 #include "LinkedListAPI.h"
 #include "GPXParser.h"
 
+#define R 6371
+#define TO_RAD (3.1415926536 / 180)
+
 GPXdoc * new_gpxdoc(void);
 Waypoint * new_waypoint(void);
 Track * new_track(void);
@@ -24,5 +27,10 @@ Attribute * new_attribute(void);
 void free_string(void * toFree);
 void create_doc_from_tree(xmlNode * root, GPXdoc ** gdoc);
 void create_tree_from_doc(xmlNodePtr * root, GPXdoc * gdoc);
+float dist_calc(float lat1, float lon1, float lat2, float lon2);
+void custom_strcpy(char * dest, char * scr, int start_index, int end_index);
+char ** new_array(void);
+void free_array(void ** arr);
+
 
 #endif
