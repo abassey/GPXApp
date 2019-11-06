@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Anemme's GPX Viewer</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="GPX Viewer">
+    <meta name="keywords" content="gpx, viewer">
+    <meta name="author" content="Anemmeabasi Bassey">
+    <!-- Load jquery, bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <!-- Custom CSS End -->
+</head>
+<body>
+	<!-- fixed nav bar -->
+			 <nav class="navbar navbar-inverse navbar-fixed-top">
+		  <div class="container-fluid">
+			<div class="navbar-header">
+			  <a class="navbar-brand" href="#">GPX Viewer</a>
+			</div>
+			<ul class="nav navbar-nav">
+			  <li class="active"><a href="#">Home</a></li>
+			  <li><a href="#file-log">File Log Panel</a></li>
+			  <li><a href="#gpx-panel">GPX Panel</a></li>
+			  <li><a href="#create-gpx">Create GPX file</a></li>
+			  <li class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#">Additional Functions
+				<span class="caret"></span></a>
+				<ul class="dropdown-menu">
+				  <li><a href="#">Add Route</a></li>
+				  <li><a href="#">Find Path Between</a></li>
+				  <li><a href="#">Rename Route/Track</a></li>
+				</ul>
+			  </li>
+			</ul>
+		  </div>
+		</nav> 
+		
+		
+		<div class="content">
+			<!-- Denis's stuff begins-->
+			<h3>Download test</h3>
+			If the A3 stub is running and simple.gpx exists in the uploads/ directory on the server, then clicking on the link below will download it from the server.<br>
+			<a href="/uploads/simple.gpx">simple.gpx</a>
+			<hr>
+			<div id="blah">I am blah</div>
+			<hr>
+			<form ref='someform'
+				  id='someform'>
+				  <div class="form-group">
+						<label for="entryBox">Last Name</label>
+						<input type="text" class="form-control" id="entryBox" value="Value" placeholder="Placeholder">
+					</div>
+				<div class="form-group">
+					<input type='submit' class="btn btn-secondary">
+				</div>
+			</form>
+		</div>
+		<!-- Denis's stuff ends-->
+		
+		<!-- File Log Panel begins-->
+		<div id="file-log">
+			<h3>File Log Panel</h3> <br> 
+			<div class="container">    
+			  <table class="table table-hover">
+				<thead>
+				  <tr>
+					<th>Filename (Click to download)</th>
+					<th>Version</th>
+					<th>Creator</th>
+					<th>Number of Waypoints</th>
+					<th>Number of Routes</th>
+					<th>Number of Tracks</th>
+				  </tr>
+				</thead>
+				<tbody>
+				  <tr>
+					
+				  </tr>
+				  <tr>
+					
+				  </tr>
+				  <tr>
+					
+				  </tr>
+				</tbody>
+			  </table>
+			  <form enctype="multipart/form-data" method="post" action="./uploads">
+				  <div class="custom-file">
+					<input type="file" accept=".gpx" class="custom-file-input" id="customFile">
+					<label class="custom-file-label" for="customFile">Choose file</label>
+				  </div>
+				  <div class="mt-3">
+				  <button type="submit" class="btn btn-primary">Upload</button>
+				</div>
+				</form>
+				<br/>
+				<script>
+				// Add the following code if you want the name of the file appear on select
+				$(".custom-file-input").on("change", function() {
+				  var fileName = $(this).val().split("\\").pop();
+				  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+				});
+				</script>
+			</div>
+		</div>
+    </div>
+    <!-- File Log Panel ends-->
+    
+    <!-- GPX Panel begins-->
+    <div id="gpx-panel">
+		<h3>GPX View Panel</h3><br>
+		<p>Select a file to view summary:  
+			<div class="container mt-3">
+			  <form>
+				<select name="files" class="custom-select mb-3">
+				  <option selected>-- None Selected --</option>
+				</select>
+			  </form>
+			</div>
+			</div> 
+		</p>
+			<!-- Nav tabs -->
+			<ul class="nav nav-pills">
+			  <li class="nav-item">
+				<a class="nav-link active" data-toggle="pill" href="#home">Routes</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" data-toggle="pill" href="#menu1">Tracks</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" data-toggle="pill" href="#menu2">Attributes</a>
+			  </li>
+			</ul>
+
+			<!-- Tab panes -->
+				<div class="tab-content">
+				<div id="home" class="container tab-pane active"><br>
+				  <h5>Routes</h5>
+				  <p><table class="table table-hover">
+				<thead>
+				  <tr>
+					<th>Component</th>
+					<th>Name</th>
+					<th>Number of Points</th>
+					<th>Length</th>
+					<th>Loop</th>
+				  </tr>
+				</thead>
+				<tbody>
+				  <tr>
+					
+				  </tr>
+				  <tr>
+					
+				  </tr>
+				  <tr>
+					
+				  </tr>
+				</tbody>
+			  </table>
+			  </p>
+				</div>
+				<div id="menu1" class="container tab-pane fade"><br>
+				  <h5>Tracks</h5>
+				  <p><table class="table table-hover">
+				<thead>
+				  <tr>
+					<th>Component</th>
+					<th>Name</th>
+					<th>Number of Points</th>
+					<th>Length</th>
+					<th>Loop</th>
+				  </tr>
+				</thead>
+				<tbody>
+				  <tr>
+					
+				  </tr>
+				  <tr>
+					
+				  </tr>
+				  <tr>
+					
+				  </tr>
+				</tbody>
+			  </table>
+			  </p>
+				</div>
+				<div id="menu2" class="container tab-pane fade"><br>
+				  <h5>Attributes</h5>
+				  <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+				</div>
+			  </div>
+			</div>
+    </div><br/>
+    <!-- GPX Panel ends-->
+    
+    <!-- Create GPX begins-->
+		<h3>Create GPX file</h3>
+		<div id="create-gpx">
+			<form >
+			<div class="form-group">
+			  <label class="control-label col-sm-2" for="fname">Filename:</label>
+			  <div class="col-sm-10">
+			  <input type="text" class="form-control" id="fname" placeholder="Enter Filename" name="fname" required></div>
+			</div>
+			<div class="form-group">
+			  <label class="control-label col-sm-2" for="version">Version:</label>
+			  <div class="col-sm-10">
+			  <input type="text" class="form-control" id="version" placeholder="Enter Version" name="version" required></div>
+			</div>
+			<div class="form-group">
+			  <label class="control-label col-sm-2" for="creator">Creator:</label>
+			  <div class="col-sm-10">
+			  <input type="text" class="form-control" id="creator" placeholder="Enter Creator" name="creator" required></div>
+			</div>
+			
+			<!-- waypoints adding -->
+			<div class="form-group form-check">
+			  <input class="form-check-input control-label col-sm-5" type="checkbox" value="" id="waypoints">
+			  <label class="form-check-label control-label col-sm-2" for="waypoints">
+				Has Waypoints?
+			  </label>
+			</div>
+			
+								<div class="panel-body">
+					  
+					  <div id="wp-fields" class="wp-fields">
+							  
+							</div>
+						   <div class="col-sm-3 nopadding">
+					  <div class="form-group">
+						<input type="text" class="form-control" id="wp-name" name="wp-name" value="" placeholder="Waypoint Name">
+					  </div>
+					</div>
+					<div class="col-sm-3 nopadding">
+					  <div class="form-group">
+						<input type="text" class="form-control" id="wp-lat" name="wp-lat" value="" placeholder="Waypoint Latitude" required>
+					  </div>
+					</div>
+					<div class="col-sm-3 nopadding">
+					  <div class="form-group">
+						<input type="text" class="form-control" id="wp-long" name="wp-long" value="" placeholder="Waypoint Longitude" required>
+					  </div>
+					</div>
+
+						  <div class="input-group-btn">
+							<button class="btn btn-success" type="button"  onclick="wp_fields();"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add</button>
+						  </div>
+						</div>
+					  </div>
+					</div>
+					<div class="clear"></div>
+					<!-- add and remove fields in form-->
+					<script>
+						var room = 1;
+						function wp_fields() {
+						 
+							room++;
+							var objTo = document.getElementById('wp-fields')
+							var divtest = document.createElement("div");
+							divtest.setAttribute("class", "form-group removeclass"+room);
+							var rdiv = 'removeclass'+room;
+							divtest.innerHTML = '<div class="col-sm-3 nopadding"><div class="form-group"> <input type="text" class="form-control" id="wp-name" name="wp-name" value="" placeholder="Waypoint Name"></div></div><div class="col-sm-3 nopadding"><div class="form-group"> <input type="text" class="form-control" id="wp-lat" name="wp-lat" value="" placeholder="Waypoint Latitude" required></div></div><div class="col-sm-3 nopadding"><div class="form-group"> <input type="text" class="form-control" id="wp-long" name="wp-long" value="" placeholder="Waypoint Longitude" required></div></div><div class="input-group-btn"> <button class="btn btn-danger" type="button" onclick="remove_wp_fields('+ room +');"> <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>Remove </button></div></div></div></div><div class="clear"></div>';
+							
+							objTo.appendChild(divtest)
+						}
+						   function remove_wp_fields(rid) {
+							   $('.removeclass'+rid).remove();
+						   }
+						   </script>
+					  </div>
+					  
+					  <!-- routes add-->
+					  <div class="form-group form-check">
+			  <input class="form-check-input control-label col-sm-5" type="checkbox" value="" id="routes">
+			  <label class="form-check-label control-label col-sm-2" for="routes">
+				Has Routes?
+			  </label>
+			</div>
+			
+								<div class="panel-body">
+					  
+					  <div id="rte-fields" class="rte-fields">
+							  
+							</div>
+						   <div class="col-sm-3 nopadding">
+					  <div class="form-group">
+						<input type="text" class="form-control" id="rte-name" name="rte-name" value="" placeholder="Route Name">
+					  </div>
+					</div>
+					<div class="col-sm-3 nopadding">
+					  <div class="form-group">
+						<input type="text" class="form-control" id="rtept-name" name="rtept-name" value="" placeholder="Routepoint Name">
+					  </div>
+					</div>
+					<div class="col-sm-3 nopadding">
+					  <div class="form-group">
+						<input type="text" class="form-control" id="rtept-lat" name="rtept-lat" value="" placeholder="Routepoint Latitude"required>
+					  </div>
+					</div>
+					<div class="col-sm-3 nopadding">
+					  <div class="form-group">
+						<input type="text" class="form-control" id="wp-long" name="wp-long" value="" placeholder="Routepoint Longitude"required>
+					  </div>
+					</div>
+
+						  <div class="input-group-btn">
+							<button class="btn btn-success" type="button"  onclick="rte_fields();"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add</button>
+						  </div>
+						</div>
+					  </div>
+					</div>
+					<div class="clear"></div>
+					<!-- add and remove fields in form-->
+					<script>
+						var room = 1;
+						function rte_fields() {
+						 
+							room++;
+							var objTo = document.getElementById('rte-fields')
+							var divtest = document.createElement("div");
+							divtest.setAttribute("class", "form-group removeclass"+room);
+							var rdiv = 'removeclass'+room;
+							divtest.innerHTML = '<div class="col-sm-3 nopadding"><div class="form-group"> <input type="text" class="form-control" id="rte-name" name="rte-name" value="" placeholder="Route Name"></div></div><div class="col-sm-3 nopadding"><div class="form-group"> <input type="text" class="form-control" id="rtept-name" name="rtept-name" value="" placeholder="Routepoint Name"><div class="col-sm-3 nopadding"><div class="form-group"> <input type="text" class="form-control" id="rtept-lat" name="rtept-lat" value="" placeholder="Routepoint Latitude" required></div></div><div class="col-sm-3 nopadding"><div class="form-group"> <input type="text" class="form-control" id="wp-long" name="wp-long" value="" placeholder="Waypoint Longitude"></div></div><div class="input-group-btn"> <button class="btn btn-danger" type="button" onclick="remove_wp_fields('+ room +');"> <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>Remove </button></div></div></div></div><div class="clear"></div>';
+							
+							objTo.appendChild(divtest)
+						}
+						   function remove_wp_fields(rid) {
+							   $('.removeclass'+rid).remove();
+						   }
+						   </script>
+					  </div>
+			
+			<input type="radio" name="choice-animals" id="choice-animals-dogs">
+	<label for="choice-animals-dogs">I like dogs more</label>
+		
+
+			
+			
+			<div class="col-sm-10">
+			<button type="submit" class="btn btn-primary">Submit</button></div>
+		  </form>
+		</div>
+    <!-- Create GPX ends-->
+    
+    <!-- Leave me at the bottom of body -->
+    <script src="/index.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
