@@ -13,7 +13,26 @@ $(document).ready(function() {
 	
 	//add more fields to gpx form
 	
-	
+	$(".custom-file-input").on("change", function() {
+				  var fileName = $(this).val().split("\\").pop();
+				  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+				});
+				
+	//Clone the hidden element and shows it
+		$('.add-one').click(function(){
+		  $('.dynamic-element').first().clone().appendTo('.dynamic-stuff').show();
+		  attach_delete();
+		});
+
+
+		//Attach functionality to delete buttons
+		function attach_delete(){
+		  $('.delete').off();
+		  $('.delete').click(function(){
+			console.log("click");
+			$(this).closest('.form-group').remove();
+		  });
+		}
 	
 	
 	//Denis's stuff

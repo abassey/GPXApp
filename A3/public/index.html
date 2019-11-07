@@ -19,30 +19,42 @@
 </head>
 <body>
 	<!-- fixed nav bar -->
-			 <nav class="navbar navbar-inverse navbar-fixed-top">
-		  <div class="container-fluid">
-			<div class="navbar-header">
-			  <a class="navbar-brand" href="#">GPX Viewer</a>
-			</div>
-			<ul class="nav navbar-nav">
-			  <li class="active"><a href="#">Home</a></li>
-			  <li><a href="#file-log">File Log Panel</a></li>
-			  <li><a href="#gpx-panel">GPX Panel</a></li>
-			  <li><a href="#create-gpx">Create GPX file</a></li>
-			  <li class="dropdown">
-				<a class="dropdown-toggle" data-toggle="dropdown" href="#">Additional Functions
-				<span class="caret"></span></a>
-				<ul class="dropdown-menu">
-				  <li><a href="#">Add Route</a></li>
-				  <li><a href="#">Find Path Between</a></li>
-				  <li><a href="#">Rename Route/Track</a></li>
-				</ul>
+			 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+		  <div class="container">
+					<a class="navbar-brand" href="#">GPXVIEWR</a>
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		  </button>
+		  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+			<ul class="navbar-nav">
+			  <li class="nav-item active">
+				<a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" href="#file-log">File Log Panel</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" href="#gpx-panel">GPX View Panel</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" href="#create-gpx">Create GPX file</a>
+			  </li>
+			  <li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				  Additional Functions
+				</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+				  <a class="dropdown-item" href="#find-inbetween">Find Routes Bewteen</a>
+				  <a class="dropdown-item" href="#add-route">Add Route</a>
+				  <a class="dropdown-item" href="#rename">Rename Route/Track</a>
+				</div>
 			  </li>
 			</ul>
 		  </div>
+		  </div>
 		</nav> 
 		
-		
+		</br></br>
 		<div class="content">
 			<!-- Denis's stuff begins-->
 			<h3>Download test</h3>
@@ -61,7 +73,7 @@
 					<input type='submit' class="btn btn-secondary">
 				</div>
 			</form>
-		</div>
+		
 		<!-- Denis's stuff ends-->
 		
 		<!-- File Log Panel begins-->
@@ -91,29 +103,25 @@
 				  </tr>
 				</tbody>
 			  </table>
-			  <form enctype="multipart/form-data" method="post" action="./uploads">
+			  <form enctype="multipart/form-data" method="post" action="/uploads">
 				  <div class="custom-file">
 					<input type="file" accept=".gpx" class="custom-file-input" id="customFile">
 					<label class="custom-file-label" for="customFile">Choose file</label>
 				  </div>
 				  <div class="mt-3">
-				  <button type="submit" class="btn btn-primary">Upload</button>
+				  <button type="submit" class="btn btn-dark">Upload</button>
 				</div>
 				</form>
 				<br/>
-				<script>
-				// Add the following code if you want the name of the file appear on select
-				$(".custom-file-input").on("change", function() {
-				  var fileName = $(this).val().split("\\").pop();
-				  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-				});
-				</script>
 			</div>
 		</div>
+		</br>
     </div>
+    </br>
     <!-- File Log Panel ends-->
     
     <!-- GPX Panel begins-->
+    </br>
     <div id="gpx-panel">
 		<h3>GPX View Panel</h3><br>
 		<p>Select a file to view summary:  
@@ -127,7 +135,7 @@
 			</div> 
 		</p>
 			<!-- Nav tabs -->
-			<ul class="nav nav-pills">
+			<ul class="nav nav-pills nav-fill">
 			  <li class="nav-item">
 				<a class="nav-link active" data-toggle="pill" href="#home">Routes</a>
 			  </li>
@@ -198,159 +206,207 @@
 				  <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
 				</div>
 			  </div>
+			  <div id="rename">
+			  <p>
+			  <form class="form-inline">
+				  <div class="form-check form-check-inline">
+					  <input class="form-check-input" type="radio" name="rename-option" id="route-option" value="route-option">
+					  <label class="form-check-label" for="route-option">Rte</label>
+					</div>
+					<div class="form-check form-check-inline">
+					  <input class="form-check-input" type="radio" name="rename-option" id="track-option" value="track-option">
+					  <label class="form-check-label" for="track-option">Trk</label>
+					</div>
+				  <label class="sr-only" for="old-name">Old Name</label>
+				  <input type="text" class="form-control mb-2 mr-sm-2" id="old-name" placeholder="Old Name">
+
+				  <label class="sr-only" for="new-name">New Name</label>
+				  <div class="input-group mb-2 mr-sm-2">
+					<input type="text" class="form-control" id="new-name" placeholder="New Name">
+				  </div>
+
+				  <button type="submit" class="btn btn-dark mb-2">Rename</button>
+				</form>
+				</p>
+				</div>
 			</div>
+			</br>
     </div><br/>
     <!-- GPX Panel ends-->
     
     <!-- Create GPX begins-->
-		<h3>Create GPX file</h3>
+    </br>
 		<div id="create-gpx">
-			<form >
-			<div class="form-group">
-			  <label class="control-label col-sm-2" for="fname">Filename:</label>
+		<h3>Create GPX file</h3>
+			<form>
+			<div class="form-group row">
+			  <label class="control-label col-sm-2 col-form-label" for="fname">Filename:</label>
 			  <div class="col-sm-10">
 			  <input type="text" class="form-control" id="fname" placeholder="Enter Filename" name="fname" required></div>
 			</div>
-			<div class="form-group">
-			  <label class="control-label col-sm-2" for="version">Version:</label>
+			<div class="form-group row">
+			  <label class="control-label col-sm-2 col-form-label" for="version">Version:</label>
 			  <div class="col-sm-10">
 			  <input type="text" class="form-control" id="version" placeholder="Enter Version" name="version" required></div>
 			</div>
-			<div class="form-group">
-			  <label class="control-label col-sm-2" for="creator">Creator:</label>
+			<div class="form-group row">
+			  <label class="control-label col-sm-2 col-form-label" for="creator">Creator:</label>
 			  <div class="col-sm-10">
 			  <input type="text" class="form-control" id="creator" placeholder="Enter Creator" name="creator" required></div>
 			</div>
 			
-			<!-- waypoints adding -->
-			<div class="form-group form-check">
-			  <input class="form-check-input control-label col-sm-5" type="checkbox" value="" id="waypoints">
-			  <label class="form-check-label control-label col-sm-2" for="waypoints">
-				Has Waypoints?
-			  </label>
-			</div>
-			
-								<div class="panel-body">
-					  
-					  <div id="wp-fields" class="wp-fields">
-							  
-							</div>
-						   <div class="col-sm-3 nopadding">
-					  <div class="form-group">
-						<input type="text" class="form-control" id="wp-name" name="wp-name" value="" placeholder="Waypoint Name">
-					  </div>
+			<fieldset class="form-group">
+				<div class="row">
+				  <legend class="col-form-label col-sm-2 pt-0">Components</legend>
+				  <div class="col-sm-10">
+					<div class="form-check">
+					  <input class="form-check-input" type="checkbox" name="gpx-components" id="waypoints" value="waypoints" checked>
+					  <label class="form-check-label" for="waypoints">
+						Has Waypoints?
+					  </label>
 					</div>
-					<div class="col-sm-3 nopadding">
-					  <div class="form-group">
-						<input type="text" class="form-control" id="wp-lat" name="wp-lat" value="" placeholder="Waypoint Latitude" required>
-					  </div>
+					<div class="form-check">
+					  <input class="form-check-input" type="checkbox" name="gpx-components" id="routes" value="routes">
+					  <label class="form-check-label" for="routes">
+						Has Routes?
+					  </label>
 					</div>
-					<div class="col-sm-3 nopadding">
-					  <div class="form-group">
-						<input type="text" class="form-control" id="wp-long" name="wp-long" value="" placeholder="Waypoint Longitude" required>
-					  </div>
+					<div class="form-check">
+					  <input class="form-check-input" type="checkbox" name="gpx-components" id="tracks" value="tracks">
+					  <label class="form-check-label" for="tracks">
+						Has Tracks?
+					  </label>
 					</div>
-
-						  <div class="input-group-btn">
-							<button class="btn btn-success" type="button"  onclick="wp_fields();"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add</button>
-						  </div>
-						</div>
-					  </div>
-					</div>
-					<div class="clear"></div>
-					<!-- add and remove fields in form-->
-					<script>
-						var room = 1;
-						function wp_fields() {
-						 
-							room++;
-							var objTo = document.getElementById('wp-fields')
-							var divtest = document.createElement("div");
-							divtest.setAttribute("class", "form-group removeclass"+room);
-							var rdiv = 'removeclass'+room;
-							divtest.innerHTML = '<div class="col-sm-3 nopadding"><div class="form-group"> <input type="text" class="form-control" id="wp-name" name="wp-name" value="" placeholder="Waypoint Name"></div></div><div class="col-sm-3 nopadding"><div class="form-group"> <input type="text" class="form-control" id="wp-lat" name="wp-lat" value="" placeholder="Waypoint Latitude" required></div></div><div class="col-sm-3 nopadding"><div class="form-group"> <input type="text" class="form-control" id="wp-long" name="wp-long" value="" placeholder="Waypoint Longitude" required></div></div><div class="input-group-btn"> <button class="btn btn-danger" type="button" onclick="remove_wp_fields('+ room +');"> <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>Remove </button></div></div></div></div><div class="clear"></div>';
-							
-							objTo.appendChild(divtest)
-						}
-						   function remove_wp_fields(rid) {
-							   $('.removeclass'+rid).remove();
-						   }
-						   </script>
-					  </div>
-					  
-					  <!-- routes add-->
-					  <div class="form-group form-check">
-			  <input class="form-check-input control-label col-sm-5" type="checkbox" value="" id="routes">
-			  <label class="form-check-label control-label col-sm-2" for="routes">
-				Has Routes?
-			  </label>
-			</div>
-			
-								<div class="panel-body">
-					  
-					  <div id="rte-fields" class="rte-fields">
-							  
-							</div>
-						   <div class="col-sm-3 nopadding">
-					  <div class="form-group">
-						<input type="text" class="form-control" id="rte-name" name="rte-name" value="" placeholder="Route Name">
-					  </div>
-					</div>
-					<div class="col-sm-3 nopadding">
-					  <div class="form-group">
-						<input type="text" class="form-control" id="rtept-name" name="rtept-name" value="" placeholder="Routepoint Name">
-					  </div>
-					</div>
-					<div class="col-sm-3 nopadding">
-					  <div class="form-group">
-						<input type="text" class="form-control" id="rtept-lat" name="rtept-lat" value="" placeholder="Routepoint Latitude"required>
-					  </div>
-					</div>
-					<div class="col-sm-3 nopadding">
-					  <div class="form-group">
-						<input type="text" class="form-control" id="wp-long" name="wp-long" value="" placeholder="Routepoint Longitude"required>
-					  </div>
-					</div>
-
-						  <div class="input-group-btn">
-							<button class="btn btn-success" type="button"  onclick="rte_fields();"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add</button>
-						  </div>
-						</div>
-					  </div>
-					</div>
-					<div class="clear"></div>
-					<!-- add and remove fields in form-->
-					<script>
-						var room = 1;
-						function rte_fields() {
-						 
-							room++;
-							var objTo = document.getElementById('rte-fields')
-							var divtest = document.createElement("div");
-							divtest.setAttribute("class", "form-group removeclass"+room);
-							var rdiv = 'removeclass'+room;
-							divtest.innerHTML = '<div class="col-sm-3 nopadding"><div class="form-group"> <input type="text" class="form-control" id="rte-name" name="rte-name" value="" placeholder="Route Name"></div></div><div class="col-sm-3 nopadding"><div class="form-group"> <input type="text" class="form-control" id="rtept-name" name="rtept-name" value="" placeholder="Routepoint Name"><div class="col-sm-3 nopadding"><div class="form-group"> <input type="text" class="form-control" id="rtept-lat" name="rtept-lat" value="" placeholder="Routepoint Latitude" required></div></div><div class="col-sm-3 nopadding"><div class="form-group"> <input type="text" class="form-control" id="wp-long" name="wp-long" value="" placeholder="Waypoint Longitude"></div></div><div class="input-group-btn"> <button class="btn btn-danger" type="button" onclick="remove_wp_fields('+ room +');"> <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>Remove </button></div></div></div></div><div class="clear"></div>';
-							
-							objTo.appendChild(divtest)
-						}
-						   function remove_wp_fields(rid) {
-							   $('.removeclass'+rid).remove();
-						   }
-						   </script>
-					  </div>
-			
-			<input type="radio" name="choice-animals" id="choice-animals-dogs">
-	<label for="choice-animals-dogs">I like dogs more</label>
-		
-
-			
+				  </div>
+				</div>
+			  </fieldset>
 			
 			<div class="col-sm-10">
-			<button type="submit" class="btn btn-primary">Submit</button></div>
+			<button type="submit" class="btn btn-dark">Submit</button></div>
 		  </form>
+		  </br>
 		</div>
+		</br>
     <!-- Create GPX ends-->
     
+    <!-- Add routes begins-->
+    </br>
+		<div id="add-route">
+		<h3>Add Route</h3>
+			<form>
+				<div class="form-group row">
+				<label for="files-for-rte" class="col-sm-2 col-form-label">File To Add Route To:</label>
+				<div class="col-sm-10">
+					<select name="files-for-rte" class="custom-select mb-3">
+					  <option selected>-- None Selected --</option>
+					</select>
+					</div>
+				</div>
+				<div class="form-group row">
+				<label for="rte-name" class="col-sm-2 col-form-label">Route Name:</label>
+				<div class="col-sm-10">
+				  <input type="text" class="form-control" id="rte-name" placeholder="Route Name">
+				</div>
+			  </div>
+			  <div class="form-group row">
+				<label for="rte-desc" class="col-sm-2 col-form-label">Description:</label>
+				<div class="col-sm-10">
+				<textarea class="form-control" id="rte-desc" rows="3" placeholder="Enter description here..."></textarea>
+				</div>
+			  </div>
+			  <fieldset class="form-group">
+				<div class="form-group dynamic-element" style="display:none">
+							  <div class="row">
+							  <div class="col-md-2"></div>
+								
+							  <!-- Replace these fields -->
+							  <div class="col-md-2">
+								  <input type="text" class="form-control" id="rtept-name" placeholder="Name">
+							  </div>
+							  <div class="col-md-2">
+								  <input type="text" class="form-control" id="rtept-lat" placeholder="Latitude">
+							  </div>
+							  <div class="col-md-2">
+								  <input type="text" class="form-control" id="rtept-long" placeholder="Longitude">
+							  </div>
+							   <div class="col-md-2">
+								  <input type="text" class="form-control" id="rtept-ele" placeholder="Elevation">
+							  </div>
+								<!-- End of fields-->
+								<div class="col-md-1">
+								  <p class="delete">x</p>
+								</div>
+							  </div>
+							</div>
+							<!-- END OF HIDDEN ELEMENT -->
+
+
+							  <!-- Form Name -->
+							  <legend class="title"><h6>Route Waypoints</h6></legend>
+
+							  <div class="dynamic-stuff">
+								<!-- Dynamic element will be cloned here -->
+								<!-- You can call clone function once if you want it to show it a first element-->
+							  </div>
+							  
+							  <!-- Button -->
+							  <div class="form-group">
+								<div class="row">
+								  <div class="col-md-12">
+									  <p class="add-one">+add route point</p>
+								  </div>
+							  </div>
+			  </fieldset>
+			  <div class="form-group row">
+				<div class="col-sm-10">
+				  <button type="submit" class="btn btn-dark">Submit</button></div>
+				</div>
+			  </div>
+			</form>
+			<br/>
+		</div>
+		<br/>
+    <!-- Add routes ends-->
+    
+    <!-- Find path between begins-->
+    <br/>
+    <div id="find-inbetween">
+		<h3>Find Path Between</h3>
+		<form>
+		  <div class="row">
+				<div class="col">
+				  <input type="text" class="form-control" id="start-lat" placeholder="Start Latitude">
+				</div>
+				<div class="col">
+				  <input type="text" class="form-control" id="start-long" placeholder="Start Longitude">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+				  <input type="text" class="form-control" id="end-lat" placeholder="End Latitude">
+				</div>
+				<div class="col">
+				  <input type="text" class="form-control" id="end-lat" placeholder="End Longitude">
+				</div>
+		  </div>
+		  <div class="row">
+					<label for="tolerance" class="col-sm-2 col-form-label">Desired Accuracy:</label>
+				<div class="col-sm-10">
+				  <input type="text" class="form-control" id="tolerance" placeholder="Comparison Accuracy">
+				</div>
+		  </div>
+		  <div class="form-group row">
+				<div class="col-sm-10">
+				  <button type="submit" class="btn btn-dark">Find Path</button></div>
+				</div>
+			  </div>
+		</form>
+    </div>
+ 
+    <!-- Find path between ends-->
+    
+    <!-- Leave this here. Ends the content tag-->
+    </div>
     <!-- Leave me at the bottom of body -->
     <script src="/index.js"></script>
 </body>
