@@ -69,6 +69,9 @@ $(document).ready(function() {
 		
 		console.log(filename);
 		
+		$('#rte-table tr').remove();
+		$('#trk-table tr').remove();
+		
 		$.ajax({
         type: 'get',            //Request type
         dataType: 'json',       //Data type - we will use JSON for almost everything 
@@ -110,6 +113,42 @@ $(document).ready(function() {
             // Non-200 return, do something with error
             $('#alert').html("<div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\"> Could not display Tracks in " + filename + " to GPX Panel. <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>");
             console.log(error); 
+			}
+		});
+		
+		$('#rename').submit(function(e) {
+			e.preventDefault();
+			
+			console.log("form recieved");
+			
+			if($('#route-option').prop('checked', true))
+			{
+				console.log("want route changed");
+				
+				let rteObj = new Object();
+				rteObj.oldname = $("#old-name").val();
+				rteObj.newname = $("#new-name").val();
+				
+				let rteJSON = JSON.stringify(rteObj);
+				console.log(rteJSON);
+				
+				$.ajax({
+  				type: 'post',            //Request type
+  				dataType: 'text',       //Data type - we will use JSON for almost everything
+  				url: '/rename/' + filename + rteJSON,   //The server endpoint we are connecting to
+  				success: function (data) {
+
+				$("#alert").append("<div class=\"alert alert-success\" role=\"alert\">" + "Successfully renamed " + rteObj.oldname + "to " + rteObj.newname + "in " + filename + "</div>");
+
+						console.log(data);
+					},
+					fail: function(error) {
+						// Non-200 return, do something with error
+				$("#alert").append("<div class=\"alert alert-danger\" role=\"alert\">" + "Could not rename " + rteObj.oldname + "to " + rteObj.newname + "in " + filename + "</div>");
+
+						console.log(error);
+					}
+				});
 			}
 		});
 	
