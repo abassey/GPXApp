@@ -55,32 +55,18 @@
 		</nav> 
 		
 		</br></br>
+		<div id="alert">
+		</div>
 		<div class="content">
 			<!-- Denis's stuff begins-->
-			<h3>Download test</h3>
-			If the A3 stub is running and simple.gpx exists in the uploads/ directory on the server, then clicking on the link below will download it from the server.<br>
-			<a href="/uploads/simple.gpx">simple.gpx</a>
-			<hr>
-			<div id="blah">I am blah</div>
-			<hr>
-			<form ref='someform'
-				  id='someform'>
-				  <div class="form-group">
-						<label for="entryBox">Last Name</label>
-						<input type="text" class="form-control" id="entryBox" value="Value" placeholder="Placeholder">
-					</div>
-				<div class="form-group">
-					<input type='submit' class="btn btn-secondary">
-				</div>
-			</form>
-		
+			
 		<!-- Denis's stuff ends-->
 		
 		<!-- File Log Panel begins-->
 		<div id="file-log">
 			<h3>File Log Panel</h3> <br> 
 			<div class="container">    
-			  <table class="table table-hover">
+			  <table class="table table-hover" id="log-table">
 				<thead>
 				  <tr>
 					<th>Filename (Click to download)</th>
@@ -92,15 +78,7 @@
 				  </tr>
 				</thead>
 				<tbody>
-				  <tr>
-					
-				  </tr>
-				  <tr>
-					
-				  </tr>
-				  <tr>
-					
-				  </tr>
+				 
 				</tbody>
 			  </table>
 			  <form enctype="multipart/form-data" method="post" action="/uploads">
@@ -127,7 +105,7 @@
 		<p>Select a file to view summary:  
 			<div class="container mt-3">
 			  <form>
-				<select name="files" class="custom-select mb-3">
+				<select name="files" class="custom-select mb-3" id="gpx-dropdown">
 				  <option selected>-- None Selected --</option>
 				</select>
 			  </form>
@@ -151,7 +129,7 @@
 				<div class="tab-content">
 				<div id="home" class="container tab-pane active"><br>
 				  <h5>Routes</h5>
-				  <p><table class="table table-hover">
+				  <p><table class="table table-hover" id="rte-table">
 				<thead>
 				  <tr>
 					<th>Component</th>
@@ -162,41 +140,24 @@
 				  </tr>
 				</thead>
 				<tbody>
-				  <tr>
-					
-				  </tr>
-				  <tr>
-					
-				  </tr>
-				  <tr>
-					
-				  </tr>
+				 
 				</tbody>
 			  </table>
 			  </p>
 				</div>
 				<div id="menu1" class="container tab-pane fade"><br>
 				  <h5>Tracks</h5>
-				  <p><table class="table table-hover">
+				  <p><table class="table table-hover" id="trk-table">
 				<thead>
 				  <tr>
 					<th>Component</th>
 					<th>Name</th>
-					<th>Number of Points</th>
 					<th>Length</th>
 					<th>Loop</th>
 				  </tr>
 				</thead>
 				<tbody>
-				  <tr>
-					
-				  </tr>
-				  <tr>
-					
-				  </tr>
-				  <tr>
-					
-				  </tr>
+				  
 				</tbody>
 			  </table>
 			  </p>
@@ -210,11 +171,11 @@
 			  <p>
 			  <form class="form-inline">
 				  <div class="form-check form-check-inline">
-					  <input class="form-check-input" type="radio" name="rename-option" id="route-option" value="route-option">
+					  <input class="form-check-input" type="radio" name="rename-option" id="route-option" value="">
 					  <label class="form-check-label" for="route-option">Rte</label>
 					</div>
 					<div class="form-check form-check-inline">
-					  <input class="form-check-input" type="radio" name="rename-option" id="track-option" value="track-option">
+					  <input class="form-check-input" type="radio" name="rename-option" id="track-option" value="">
 					  <label class="form-check-label" for="track-option">Trk</label>
 					</div>
 				  <label class="sr-only" for="old-name">Old Name</label>
@@ -238,48 +199,26 @@
     </br>
 		<div id="create-gpx">
 		<h3>Create GPX file</h3>
-			<form>
+			<form  id="new-gpx">
 			<div class="form-group row">
 			  <label class="control-label col-sm-2 col-form-label" for="fname">Filename:</label>
-			  <div class="col-sm-10">
-			  <input type="text" class="form-control" id="fname" placeholder="Enter Filename" name="fname" required></div>
+			  <div class="col-sm-8">
+			  <input type="text" class="form-control" id="fname" placeholder="Enter Filename" name="fname" required>
+				</div>
+				<div class="input-group-append">
+				<div class="input-group-text">.gpx</div>
+					</div>
 			</div>
 			<div class="form-group row">
 			  <label class="control-label col-sm-2 col-form-label" for="version">Version:</label>
 			  <div class="col-sm-10">
-			  <input type="text" class="form-control" id="version" placeholder="Enter Version" name="version" required></div>
+			  <input type="number" readonly class="form-control" id="version" placeholder="Enter Version" name="version" value="1.1"></div>
 			</div>
 			<div class="form-group row">
 			  <label class="control-label col-sm-2 col-form-label" for="creator">Creator:</label>
 			  <div class="col-sm-10">
 			  <input type="text" class="form-control" id="creator" placeholder="Enter Creator" name="creator" required></div>
 			</div>
-			
-			<fieldset class="form-group">
-				<div class="row">
-				  <legend class="col-form-label col-sm-2 pt-0">Components</legend>
-				  <div class="col-sm-10">
-					<div class="form-check">
-					  <input class="form-check-input" type="checkbox" name="gpx-components" id="waypoints" value="waypoints" checked>
-					  <label class="form-check-label" for="waypoints">
-						Has Waypoints?
-					  </label>
-					</div>
-					<div class="form-check">
-					  <input class="form-check-input" type="checkbox" name="gpx-components" id="routes" value="routes">
-					  <label class="form-check-label" for="routes">
-						Has Routes?
-					  </label>
-					</div>
-					<div class="form-check">
-					  <input class="form-check-input" type="checkbox" name="gpx-components" id="tracks" value="tracks">
-					  <label class="form-check-label" for="tracks">
-						Has Tracks?
-					  </label>
-					</div>
-				  </div>
-				</div>
-			  </fieldset>
 			
 			<div class="col-sm-10">
 			<button type="submit" class="btn btn-dark">Submit</button></div>
@@ -297,7 +236,7 @@
 				<div class="form-group row">
 				<label for="files-for-rte" class="col-sm-2 col-form-label">File To Add Route To:</label>
 				<div class="col-sm-10">
-					<select name="files-for-rte" class="custom-select mb-3">
+					<select name="files-for-rte" class="custom-select mb-3" id="files-for-rte">
 					  <option selected>-- None Selected --</option>
 					</select>
 					</div>
