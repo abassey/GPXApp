@@ -35,5 +35,6 @@ char * gpx_struct_to_html(char * filename);
 char * rte_struct_to_html(char * filename);
 char * trk_struct_to_html(char * filename);
 char * html_to_gpx_struct(char * filename, char * gpxJSON);
+char * rename_route(char * filename, char * rteJSON);
 
 #endif
