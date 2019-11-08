@@ -70,16 +70,79 @@ app.get('/uploads/:name', function(req , res){
 
 //******************** Your code goes here ******************** 
 
-//Sample endpoint
-app.get('/someendpoint', function(req , res){
-  let retStr = req.query.name1 + " " + req.query.name2;
-  res.send({
-    foo: retStr
-  });
-});
+//Sample endpoints
 
 app.listen(portNum);
 console.log('Running app at localhost: ' + portNum);
 
-console.log('Running app at localhost: ' + portNum);
+let lib = ffi.Library('./libgpxparse', {
+	'gpx_struct_to_html': ['string', ['string']],
+	'rte_struct_to_html': ['string', ['string']],
+	'trk_struct_to_html': ['string', ['string']],
+	'html_to_gpx_struct': ['string', ['string', 'string']],
+});
+
+app.get('/gpx', function(req, res){
+	
+	var r = [];
+	
+	let files = fs.readdirSync('./uploads');
+	
+	for(var i = 0; i < files.length; i++)
+	{
+		
+		let c = lib.gpx_struct_to_html(files[i]);
+	
+		let jsonObj = JSON.parse(c);
+		jsonObj["filename"] = files[i];
+	
+		r[i] = JSON.stringify(jsonObj);
+	}
+	
+
+	res.send(r);
+});
+
+app.get('/rte/:filename', function(req , res){
+
+
+    let file = req.params.filename;
+
+    console.log(file);
+
+    let c = lib.rte_struct_to_html(file);
+    console.log(c);
+
+
+   res.send(c);
+});
+
+app.get('/trk/:filename', function(req , res){
+
+
+    let file = req.params.filename;
+
+    console.log(file);
+
+    let c = lib.trk_struct_to_html(file);
+    console.log(c);
+
+
+   res.send(c);
+});
+
+app.post('/gpxcreate/:filename/:gpxJSON', function(req , res){
+
+
+    let file = req.params.filename;
+
+    console.log(file);
+
+    let c = lib.html_to_gpx_struct(file, req.params.gpxJSON);
+    console.log(c);
+
+
+   res.send(c);
+});
+
 
