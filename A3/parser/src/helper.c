@@ -176,17 +176,28 @@ void create_doc_from_tree(xmlNode * root, GPXdoc ** gdoc)
 					//go to its attributes
 					//assign all that needs to be
 					Waypoint * wpt = new_waypoint();
+				
+					if(cur_node->children != NULL)
+					{
+						xmlNode * wpt_node = NULL;
+						
+						for(wpt_node = cur_node->children->next; wpt_node != NULL; wpt_node = wpt_node->next->next)
+						{
+						
+							if(strcmp((char *)wpt_node->name, "name") == 0) strcpy(wpt->name, (char*)xmlNodeGetContent(wpt_node));
+						}
+					}
 					
 					for (attr = cur_node->properties; attr != NULL; attr = attr->next)
 						{
+							//incorrectvalues are being stored into lat and lon. look into it
 							xmlNode *value = attr->children;
 							char *attrName = (char *)attr->name;
 							char *cont = (char *)(value->content);
-							//printf("\tattribute name: %s, attribute value = %s\n", attrName, cont);
+							//printf("\twaypoint attribute name: %s, waypoint attribute value = %s\n", attrName, cont);
 							
 							if(strcmp(attrName, "lat") == 0) wpt->latitude = atof(cont);
 							else if(strcmp(attrName, "lon") == 0) wpt->longitude = atof(cont);
-							else if(strcmp(attrName, "name") == 0) strcpy(wpt->name, cont);
 							else {
 								Attribute * wpt_attr = new_attribute();
 								
@@ -198,6 +209,7 @@ void create_doc_from_tree(xmlNode * root, GPXdoc ** gdoc)
 								//deleteAttribute(wpt_attr);
 							}
 							
+							//printf("copied lat:%f, copied lon:%f\n", wpt->latitude, wpt->longitude);
 						}
 					
 					insertBack(gpx->waypoints, wpt);
@@ -213,8 +225,6 @@ void create_doc_from_tree(xmlNode * root, GPXdoc ** gdoc)
 					//go to its attributes
 					//assign all that needs to be
 					xmlNode * rte_node = NULL; 
-					
-					//printf("found a route\n");
 				
 					for(rte_node = cur_node->children->next; rte_node != NULL; rte_node = rte_node->next->next)
 					{
@@ -225,6 +235,28 @@ void create_doc_from_tree(xmlNode * root, GPXdoc ** gdoc)
 						{
 							Waypoint * rte_wp = new_waypoint();
 							
+							
+							if(rte_node->children != NULL)
+								{
+									xmlNode * rtept_node = NULL;
+									
+									for(rtept_node = rte_node->children->next; rtept_node != NULL; rtept_node = rtept_node->next->next)
+									{
+										if(strcmp((char *)rtept_node->name, "name") == 0) strcpy(rte_wp->name, (char*)xmlNodeGetContent(rtept_node));
+										
+										if(strcmp((char *)rtept_node->name, "ele") == 0)
+										{
+											Attribute * rte_attr = new_attribute();
+													
+											strcpy(rte_attr->name, "ele");
+											strcpy(rte_attr->value, (char*)xmlNodeGetContent(rtept_node));
+													
+											insertBack(rte_wp->attributes, rte_attr);
+										} 
+									}
+								} else {
+								}
+							
 							for (attr = rte_node->properties; attr != NULL; attr = attr->next)
 							{
 								xmlNode *value = attr->children;
@@ -234,7 +266,6 @@ void create_doc_from_tree(xmlNode * root, GPXdoc ** gdoc)
 								
 								if(strcmp(attrName, "lat") == 0) rte_wp->latitude = atof(cont);
 								else if(strcmp(attrName, "lon") == 0) rte_wp->longitude = atof(cont);
-								else if(strcmp(attrName, "name") == 0) strcpy(rte_wp->name, cont);
 								else {
 									Attribute * rtept_attr = new_attribute();
 									
@@ -280,41 +311,65 @@ void create_doc_from_tree(xmlNode * root, GPXdoc ** gdoc)
 					
 					for(trk_node = cur_node->children->next; trk_node != NULL; trk_node = trk_node->next->next)
 					{
-						//printf("node type: Element, name: %s\n", trk_node->name); 
 						
 						if(strcmp((char *)trk_node->name, "name") == 0) strcpy(trk->name, (char*)xmlNodeGetContent(trk_node));
 						else if (strcmp((char *)trk_node->name, "trkseg") == 0)
 						{
 							TrackSegment* trkseg = new_tracksegment();
 							
-							//xmlNode * trksegs = NULL;
-							Waypoint * trkseg_wp = new_waypoint();
-							
-							for (attr = trk_node->properties; attr != NULL; attr = attr->next)
+							xmlNode * trkseg_node = NULL;
+							for(trkseg_node = trk_node->children->next; trkseg_node != NULL; trkseg_node = trkseg_node->next->next)
 							{
-								xmlNode *value = attr->children;
-								char *attrName = (char *)attr->name;
-								char *cont = (char *)(value->content);
-								//printf("\tattribute name: %s, attribute value = %s\n", attrName, cont);
+								//printf("node type: Element, name: %s\n", trkseg_node->name); 
+									
+								Waypoint * trkseg_wp = new_waypoint();
 								
-								if(strcmp(attrName, "lat") == 0) trkseg_wp->latitude = atof(cont);
-								else if(strcmp(attrName, "lon") == 0) trkseg_wp->longitude = atof(cont);
-								else if(strcmp(attrName, "name") == 0) strcpy(trkseg_wp->name, cont);
-								else {
-									Attribute * trkseg_attr = new_attribute();
+								if(trkseg_node->children != NULL)
+								{
+									xmlNode * trkpt_node = NULL;
 									
-									strcpy(trkseg_attr->name,attrName);
-									strcpy(trkseg_attr->value, cont);
-									
-									insertBack(trkseg_wp->attributes, trkseg_attr);
-									
-									//deleteAttribute(trkseg_attr);
+									for(trkpt_node = trkseg_node->children->next; trkpt_node != NULL; trkpt_node = trkpt_node->next->next)
+									{
+										if(strcmp((char *)trkpt_node->name, "name") == 0) strcpy(trkseg_wp->name, (char*)xmlNodeGetContent(trkpt_node));
+										
+										if(strcmp((char *)trkpt_node->name, "ele") == 0)
+										{
+											Attribute * trkseg_attr = new_attribute();
+													
+											strcpy(trkseg_attr->name, "ele");
+											strcpy(trkseg_attr->value, (char*)xmlNodeGetContent(trkpt_node));
+													
+											insertBack(trkseg_wp->attributes, trkseg_attr);
+										} 
+									}
+								} else {
 								}
 								
+								for (attr = trkseg_node->properties; attr != NULL; attr = attr->next)
+								{
+									xmlNode *value = attr->children;
+									char *attrName = (char *)attr->name;
+									char *cont = (char *)(value->content);
+									//printf("\tattribute name: %s, attribute value = %s\n", attrName, cont);
+									
+									if(strcmp(attrName, "lat") == 0) trkseg_wp->latitude = atof(cont);
+									else if(strcmp(attrName, "lon") == 0) trkseg_wp->longitude = atof(cont);
+									else {
+										Attribute * trkseg_attr = new_attribute();
+										
+										strcpy(trkseg_attr->name,attrName);
+										strcpy(trkseg_attr->value, cont);
+										
+										insertBack(trkseg_wp->attributes, trkseg_attr);
+										
+										//deleteAttribute(trkseg_attr);
+									}
+									
+								}
+								
+								insertBack(trkseg->waypoints, trkseg_wp);
+								//deleteWaypoint(trkseg_wp);
 							}
-							
-							insertBack(trkseg->waypoints, trkseg_wp);
-							//deleteWaypoint(trkseg_wp);
 							
 							insertBack(trk->segments, trkseg);
 							//deleteTrackSegment(trkseg);
@@ -344,5 +399,353 @@ void create_doc_from_tree(xmlNode * root, GPXdoc ** gdoc)
     *gdoc = gpx;
 }
 
+//Assignment 2 start
+void create_tree_from_doc(xmlNodePtr * root, GPXdoc * gdoc)
+{
+	xmlNodePtr root_node = *root;
+	xmlNodePtr node = NULL;
+	xmlNodePtr child = NULL;
+	xmlNodePtr inner_child = NULL;
+	char float_str[20];
+	
+	snprintf(float_str, sizeof(float_str), "%.1f", gdoc->version);
+	xmlNewProp(root_node, BAD_CAST "version", BAD_CAST float_str);
+	xmlNewProp(root_node, BAD_CAST "creator", BAD_CAST gdoc->creator);
+	xmlNsPtr ns = xmlNewNs(root_node, BAD_CAST gdoc->namespace, NULL);
+	xmlSetNs(root_node, ns);
+	
+	
+	//creating the waypoint child node, its attributes and its children
+	if(getLength(gdoc->waypoints) != 0)
+	{
+		ListIterator itr = createIterator(gdoc->waypoints);
+		
+		Waypoint * wp  = nextElement(&itr);
+		
+		while(wp != NULL)
+		{
+			node = xmlNewChild(root_node, NULL, BAD_CAST "wpt", NULL);
+		
+			if(getLength(wp->attributes) != 0)
+			{	
+				ListIterator inner_itr = createIterator(wp->attributes);
+				
+				Attribute * attr_data = nextElement(&inner_itr);
+				
+				while(attr_data != NULL)
+				{
+					if (strcmp(attr_data->name, "ele") == 0) xmlNewChild(node, NULL, BAD_CAST "ele", BAD_CAST attr_data->value);
+					else xmlNewProp(node, BAD_CAST attr_data->name, BAD_CAST attr_data->value);
+						
+					
+					attr_data = nextElement(&inner_itr);
+				}
+				
+				//deleteAttribute(attr);
+			}
+			
+			//child = xmlNewChild(node, BAD_CAST "name", BAD_CAST wp->name);
+			if(strcmp(wp->name, "\0") != 0) xmlNewChild(node, NULL, BAD_CAST "name", BAD_CAST wp->name);
+			
+			snprintf(float_str, sizeof(float_str), "%.6f", wp->latitude);
+			xmlNewProp(node, BAD_CAST "lat", BAD_CAST float_str);
+			
+			snprintf(float_str, sizeof(float_str), "%.6f", wp->longitude);
+			xmlNewProp(node, BAD_CAST "lon", BAD_CAST float_str);
+			
+			wp = nextElement(&itr);
+		}
+	}
+	
+	//creating the route child node, its attributes and its children
+	if(getLength(gdoc->routes) != 0)
+	{
+		
+		
+		ListIterator itr = createIterator(gdoc->routes);
+		
+		Route * rte  = nextElement(&itr);
+		
+		while(rte != NULL)
+		{
+			node = xmlNewChild(root_node, NULL, BAD_CAST "rte", NULL);
+			
+			if(strcmp(rte->name, "\0") != 0) xmlNewChild(node, NULL, BAD_CAST "name", BAD_CAST rte->name);
+		
+			if(getLength(rte->attributes) != 0)
+			{
+				
+				ListIterator inner_itr = createIterator(rte->attributes);
+				
+				Attribute * attr = nextElement(&inner_itr);
+				
+				while(attr != NULL)
+				{
+					if(strcmp(attr->name,"desc") == 0) 
+					child = xmlNewChild(node, NULL, BAD_CAST attr->name, BAD_CAST attr->value);
+					
+					else
+					xmlNewProp(node, BAD_CAST attr->name, BAD_CAST attr->value);
+					
+					attr = nextElement(&inner_itr);
+				}
+				
+			}
+			
+			
+			if(getLength(rte->waypoints) != 0)
+			{
+				ListIterator rtewp_itr = createIterator(rte->waypoints);
+				
+				Waypoint * rte_wp = nextElement(&rtewp_itr);
+				
+				while(rte_wp != NULL)
+				{
+					child = xmlNewChild(node, NULL, BAD_CAST "rtept", NULL);
+					
+					if(strcmp(rte_wp->name, "\0") != 0) xmlNewChild(child, NULL, BAD_CAST "name", BAD_CAST rte_wp->name);
+					//xmlNewProp(child, BAD_CAST "name", BAD_CAST rte_wp->name);
+					
+					snprintf(float_str, sizeof(float_str), "%.6f", rte_wp->latitude);
+					xmlNewProp(child, BAD_CAST "lat", BAD_CAST float_str);
+					
+					snprintf(float_str, sizeof(float_str), "%.6f", rte_wp->longitude);
+					xmlNewProp(child, BAD_CAST "lon", BAD_CAST float_str);
+					
+					ListIterator rtewp_attr_itr = createIterator(rte_wp->attributes);
+				
+					Attribute * rtewp_attr = nextElement(&rtewp_attr_itr);
+					
+					while(rtewp_attr != NULL)
+					{
+						xmlNewProp(child, BAD_CAST rtewp_attr->name, BAD_CAST rtewp_attr->value);
+					
+						rtewp_attr = nextElement(&rtewp_attr_itr);
+					}
+					
+					rte_wp = nextElement(&rtewp_itr);
+				}
+			}
+			
+			rte = nextElement(&itr);
+		}
+	}
+	
+	if(getLength(gdoc->tracks) != 0)
+	{
+		//creating the track child node, its attributes and its children
+		ListIterator itr = createIterator(gdoc->tracks);
+		
+		Track * trk  = nextElement(&itr);
+		
+		while(trk != NULL)
+		{
+			node = xmlNewChild(root_node, NULL, BAD_CAST "trk", NULL);
+			
+			child = xmlNewChild(node, NULL, BAD_CAST "name", BAD_CAST trk->name);
+		
+			if(getLength(trk->attributes) != 0)
+			{
+				
+				ListIterator inner_itr = createIterator(trk->attributes);
+				
+				Attribute * attr = nextElement(&inner_itr);
+				
+				while(attr != NULL)
+				{
+					if(strcmp(attr->name,"desc") == 0) 
+					child = xmlNewChild(node, NULL, BAD_CAST attr->name, BAD_CAST attr->value);
+					
+					else
+					xmlNewProp(node, BAD_CAST attr->name, BAD_CAST attr->value);
+					
+					attr = nextElement(&inner_itr);
+				}
+				
+			}
+			
+			
+			if(getLength(trk->segments) != 0)
+			{
+				ListIterator trkseg_itr = createIterator(trk->segments);
+				
+				TrackSegment * trkseg = nextElement(&trkseg_itr);
+				
+				while(trkseg != NULL)
+				{
+					child = xmlNewChild(node, NULL, BAD_CAST "trkseg", NULL);
+					
+					ListIterator trksegwp_itr = createIterator(trkseg->waypoints);
+				
+					Waypoint * trkseg_wp = nextElement(&trksegwp_itr);
+				
+					while(trkseg_wp != NULL)
+					{
+						
+						inner_child = xmlNewChild(child, NULL, BAD_CAST "trkpt", NULL);
+						
+						if(strcmp(trkseg_wp->name, "\0") != 0) xmlNewChild(inner_child, NULL, BAD_CAST "name", BAD_CAST trkseg_wp->name);
+						//xmlNewProp(inner_child, BAD_CAST "name", BAD_CAST trkseg_wp->name);
+						
+						snprintf(float_str, sizeof(float_str), "%.6f", trkseg_wp->latitude);
+						xmlNewProp(inner_child, BAD_CAST "lat", BAD_CAST float_str);
+						
+						snprintf(float_str, sizeof(float_str), "%.6f", trkseg_wp->longitude);
+						xmlNewProp(inner_child, BAD_CAST "lon", BAD_CAST float_str);
+						
+						ListIterator trksegwp_attr_itr = createIterator(trkseg_wp->attributes);
+					
+						Attribute * trksegwp_attr = nextElement(&trksegwp_attr_itr);
+						
+						while(trksegwp_attr != NULL)
+						{
+							if(strcmp(trksegwp_attr->name,"ele") == 0) 
+							xmlNewChild(inner_child, NULL, BAD_CAST trksegwp_attr->name, BAD_CAST trksegwp_attr->value);
+							
+							else
+							xmlNewProp(inner_child, BAD_CAST trksegwp_attr->name, BAD_CAST trksegwp_attr->value);
+						
+							trksegwp_attr = nextElement(&trksegwp_attr_itr);
+						}
+						
+						trkseg_wp = nextElement(&trksegwp_itr);
+					}
+					
+					trkseg = nextElement(&trkseg_itr);
+				}
+			}
+				
+				trk = nextElement(&itr);
+		}
+	}
+	
+	*root = root_node;
+}
 
+float dist_calc(float lat1, float lon1, float lat2, float lon2)
+{
+	
+	float dx, dy, dz;
+	lon1 -= lon2;
+	lon1 *= TO_RAD, lat1 *= TO_RAD, lat2 *= TO_RAD;
+ 
+	dz = sinf(lat1) - sinf(lat2);
+	dx = cosf(lon1) * cosf(lat1) - cosf(lat2);
+	dy = sinf(lon1) * cosf(lat1);
+	return asinf(sqrtf(dx * dx + dy * dy + dz * dz) / 2) * 2 * R;
+}
 
+void free_array(void ** arr)
+{
+  if(arr == NULL) return;
+
+  for(int i = 0; i < 5000; i++)
+  {
+    free_string(arr[i]);
+  }
+
+  free(arr);
+}
+
+char ** new_array(void)
+{
+  char ** allocate = calloc(5000, sizeof(char*));
+
+  for(int i = 0; i < 5000; i++)
+  {
+    allocate[i] = calloc(5000, sizeof(char));
+  }
+
+  return allocate;
+}
+
+void custom_strcpy(char * dest, char * scr, int start_index, int end_index)
+{
+  if(dest == NULL || scr == NULL) return;
+
+  if(start_index < 0) return;
+
+  if(end_index > strlen(scr)) return;
+
+  int counter = 0;
+
+  for(int i = start_index; i < end_index; i++)
+  {
+    dest[counter] = scr[i];
+    counter++;
+  }
+}
+
+char * gpx_struct_to_html(char * filename)
+{
+	char * dir = new_string();
+	strcpy(dir, "uploads/");
+	strcat(dir, filename);
+	
+	GPXdoc * gdoc = createGPXdoc(dir);
+	
+	bool valid = validateGPXDoc(gdoc, "gpx.xsd");
+	if(valid == false) return "Invalid file";
+	
+	char * str = GPXtoJSON(gdoc);
+	
+	deleteGPXdoc(gdoc);
+	free_string(dir);
+	
+	return str;
+}
+
+char * trk_struct_to_html(char * filename)
+{
+	char * dir = new_string();
+	strcpy(dir, "uploads/");
+	strcat(dir, filename);
+	
+	GPXdoc * gdoc = createGPXdoc(dir);
+	
+	bool valid = validateGPXDoc(gdoc, "gpx.xsd");
+	if(valid == false) return "Invalid track";
+	
+	char * str = trackListToJSON(gdoc->tracks);
+	
+	deleteGPXdoc(gdoc);
+	free_string(dir);
+	
+	return str;
+}
+
+char * rte_struct_to_html(char * filename)
+{
+	char * dir = new_string();
+	strcpy(dir, "uploads/");
+	strcat(dir, filename);
+	
+	GPXdoc * gdoc = createGPXdoc(dir);
+	
+	bool valid = validateGPXDoc(gdoc, "gpx.xsd");
+	if(valid == false) return "Invalid route";
+	
+	char * str = routeListToJSON(gdoc->routes);
+	
+	deleteGPXdoc(gdoc);
+	free_string(dir);
+	
+	return str;
+}
+
+char * html_to_gpx_struct(char * filename, char * gpxJSON)
+{
+	char * dir = new_string();
+	strcpy(dir, "uploads/");
+	strcat(dir, filename);
+	
+	GPXdoc * gdoc = JSONtoGPX(gpxJSON);
+
+	bool write = writeGPXdoc(gdoc, filename);
+	if(write == false) return "Error writing to file";
+	
+	deleteGPXdoc(gdoc);
+	free_string(dir);
+	
+	return "Success";
+}
