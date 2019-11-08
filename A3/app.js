@@ -80,6 +80,7 @@ let lib = ffi.Library('./libgpxparse', {
 	'rte_struct_to_html': ['string', ['string']],
 	'trk_struct_to_html': ['string', ['string']],
 	'html_to_gpx_struct': ['string', ['string', 'string']],
+	'rename_route': ['string', ['string', 'string']],
 });
 
 app.get('/gpx', function(req, res){
@@ -139,6 +140,20 @@ app.post('/gpxcreate/:filename/:gpxJSON', function(req , res){
     console.log(file);
 
     let c = lib.html_to_gpx_struct(file, req.params.gpxJSON);
+    console.log(c);
+
+
+   res.send(c);
+});
+
+app.post('/rename/:filename/:rteJSON', function(req , res){
+
+
+    let file = req.params.filename;
+
+    console.log(file);
+
+    let c = lib.rename_route(file, req.params.rteJSON);
     console.log(c);
 
 
