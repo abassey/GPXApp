@@ -31,6 +31,9 @@ float dist_calc(float lat1, float lon1, float lat2, float lon2);
 void custom_strcpy(char * dest, char * scr, int start_index, int end_index);
 char ** new_array(void);
 void free_array(void ** arr);
-
+char * gpx_struct_to_html(char * filename);
+char * rte_struct_to_html(char * filename);
+char * trk_struct_to_html(char * filename);
+char * html_to_gpx_struct(char * filename, char * gpxJSON);
 
 #endif
