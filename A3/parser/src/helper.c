@@ -749,3 +749,32 @@ char * html_to_gpx_struct(char * filename, char * gpxJSON)
 	
 	return "Success";
 }
+
+char * rename_route(char * filename, char * rteJSON)
+{
+	char * dir = new_string();
+	strcpy(dir, "uploads/");
+	strcat(dir, filename);
+	
+	GPXdoc * gdoc = createGPXdoc(dir);
+
+	bool valid = validateGPXDoc(gdoc, "gpx.xsd");
+	if(valid == false) return "Invalid file";
+	
+	char * new = new_string();
+	char * old = new_string();
+	
+	//need to parse rteJSON
+	
+	Route * newname = getRoute(gdoc, old);
+	strcpy(newname->name, new);
+	insertBack(gdoc->routes, newname);
+	
+	Route * oldname = getRoute(gdoc, old);
+	deleteRoute(oldname);
+	
+	deleteGPXdoc(gdoc);
+	free_string(dir);
+	
+	return "Success";
+}
