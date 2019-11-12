@@ -655,7 +655,6 @@ char ** new_array(void)
   {
     allocate[i] = calloc(5000, sizeof(char));
   }
-<<<<<<< HEAD
 
   return allocate;
 }
@@ -757,104 +756,6 @@ char * html_to_gpx_struct(char * filename, char * gpxJSON)
 }
 
 void rename_route(char * filename, char * newn, int index)
-=======
-
-  return allocate;
-}
-
-void custom_strcpy(char * dest, char * scr, int start_index, int end_index)
-{
-  if(dest == NULL || scr == NULL) return;
-
-  if(start_index < 0) return;
-
-  if(end_index > strlen(scr)) return;
-
-  int counter = 0;
-
-  for(int i = start_index; i < end_index; i++)
-  {
-    dest[counter] = scr[i];
-    counter++;
-  }
-}
-
-char * gpx_struct_to_html(char * filename)
-{
-	char * dir = new_string();
-	strcpy(dir, "uploads/");
-	strcat(dir, filename);
-	
-	GPXdoc * gdoc = createGPXdoc(dir);
-	
-	bool valid = validateGPXDoc(gdoc, "gpx.xsd");
-	if(valid == false) return "Invalid file";
-	
-	char * str = GPXtoJSON(gdoc);
-	
-	deleteGPXdoc(gdoc);
-	free_string(dir);
-	
-	return str;
-}
-
-char * trk_struct_to_html(char * filename)
-{
-	char * dir = new_string();
-	strcpy(dir, "uploads/");
-	strcat(dir, filename);
-	
-	GPXdoc * gdoc = createGPXdoc(dir);
-	
-	bool valid = validateGPXDoc(gdoc, "gpx.xsd");
-	if(valid == false) return "Invalid track";
-	
-	char * str = trackListToJSON(gdoc->tracks);
-	
-	deleteGPXdoc(gdoc);
-	free_string(dir);
-	
-	return str;
-}
-
-char * rte_struct_to_html(char * filename)
-{
-	char * dir = new_string();
-	strcpy(dir, "uploads/");
-	strcat(dir, filename);
-	
-	GPXdoc * gdoc = createGPXdoc(dir);
-	
-	bool valid = validateGPXDoc(gdoc, "gpx.xsd");
-	if(valid == false) return "Invalid route";
-	
-	char * str = routeListToJSON(gdoc->routes);
-	
-	deleteGPXdoc(gdoc);
-	free_string(dir);
-	
-	return str;
-}
-
-char * html_to_gpx_struct(char * filename, char * gpxJSON)
-{
-	char * dir = new_string();
-	strcpy(dir, "uploads/");
-	strcat(dir, filename);
-	
-	GPXdoc * gdoc = JSONtoGPX(gpxJSON);
-
-	bool write = writeGPXdoc(gdoc, filename);
-	if(write == false) return "Error writing to file";
-	
-	deleteGPXdoc(gdoc);
-	free_string(dir);
-	
-	return "Success";
-}
-
-char * rename_route(char * filename, char * rteJSON)
->>>>>>> 46a3d96151354c01616859af4c78e0f1a39313c3
 {
 	char * dir = new_string();
 	strcpy(dir, "uploads/");
@@ -863,7 +764,6 @@ char * rename_route(char * filename, char * rteJSON)
 	GPXdoc * gdoc = createGPXdoc(dir);
 
 	bool valid = validateGPXDoc(gdoc, "gpx.xsd");
-<<<<<<< HEAD
 	if(valid == false) return;
 	
 	//change by index instead
@@ -950,26 +850,10 @@ char * all_trks_between(char * filename, float start_lat, float start_long, floa
 	
 	List * tracks = getTracksBetween(gdoc, start_lat, start_long, end_lat, end_long, tol);
 	char * trks = trackListToJSON(tracks);
-=======
-	if(valid == false) return "Invalid file";
-	
-	char * new = new_string();
-	char * old = new_string();
-	
-	//need to parse rteJSON
-	
-	Route * newname = getRoute(gdoc, old);
-	strcpy(newname->name, new);
-	insertBack(gdoc->routes, newname);
-	
-	Route * oldname = getRoute(gdoc, old);
-	deleteRoute(oldname);
->>>>>>> 46a3d96151354c01616859af4c78e0f1a39313c3
 	
 	deleteGPXdoc(gdoc);
 	free_string(dir);
 	
-<<<<<<< HEAD
 	return trks;
 }
 
@@ -1054,7 +938,4 @@ void add_route_from_form(char * filename, char * route_name, char * waypoints, i
 	free_string(dir);
 	free_string(temp);
 	free_array((void**)wyps);
-=======
-	return "Success";
->>>>>>> 46a3d96151354c01616859af4c78e0f1a39313c3
 }

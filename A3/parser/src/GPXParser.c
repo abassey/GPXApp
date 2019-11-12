@@ -643,7 +643,6 @@ float getRouteLen(const Route *rt)
 	return len * 1000;
 }
 
-//find out why not working for round10
 float round10(float len)
 {
 	if(len < 0) return -1;
@@ -1281,8 +1280,9 @@ Waypoint* JSONtoWaypoint(const char* gpxString)
 	{
 		custom_strcpy(buffer, temp, 23, 34);
 		buffer[10] = '\0';
-		//printf("%s\n", buffer);
+		printf("%s\n", buffer);
 		wpt->longitude = atof(buffer);
+		printf("%f\n", wpt->longitude);
 	}
 
 	
