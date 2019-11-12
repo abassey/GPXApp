@@ -35,6 +35,14 @@ char * gpx_struct_to_html(char * filename);
 char * rte_struct_to_html(char * filename);
 char * trk_struct_to_html(char * filename);
 char * html_to_gpx_struct(char * filename, char * gpxJSON);
+<<<<<<< HEAD
+void rename_route(char * filename, char * newn, int index);
+void rename_track(char * filename, char * newn, int index);
+char * all_rtes_between(char * filename, float start_lat, float start_long, float end_lat, float end_long, float tol);
+char * all_trks_between(char * filename, float start_lat, float start_long, float end_lat, float end_long, float tol);
+void add_route_from_form(char * filename, char * route_name, char * waypoints, int length);
+=======
 char * rename_route(char * filename, char * rteJSON);
+>>>>>>> 46a3d96151354c01616859af4c78e0f1a39313c3
 
 #endif
