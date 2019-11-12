@@ -80,16 +80,12 @@ let lib = ffi.Library('./libgpxparse', {
 	'rte_struct_to_html': ['string', ['string']],
 	'trk_struct_to_html': ['string', ['string']],
 	'html_to_gpx_struct': ['string', ['string', 'string']],
-<<<<<<< HEAD
 	'rename_route': ['void', ['string', 'string', 'int']],
 	'rename_track': ['void', ['string', 'string', 'int']],
 	'all_rtes_between': ['string', ['string', 'float', 'float', 'float', 'float', 'float']],
 	'all_trks_between': ['string', ['string', 'float', 'float', 'float', 'float', 'float']],
 	'add_route_from_form': ['void', ['string', 'string', 'string', 'int']],
 
-=======
-	'rename_route': ['string', ['string', 'string']],
->>>>>>> 46a3d96151354c01616859af4c78e0f1a39313c3
 });
 
 app.get('/gpx', function(req, res){
@@ -102,11 +98,8 @@ app.get('/gpx', function(req, res){
 	{
 		
 		let c = lib.gpx_struct_to_html(files[i]);
-<<<<<<< HEAD
 		
 		if(c == "Invalid file") continue;
-=======
->>>>>>> 46a3d96151354c01616859af4c78e0f1a39313c3
 	
 		let jsonObj = JSON.parse(c);
 		jsonObj["filename"] = files[i];
@@ -123,17 +116,10 @@ app.get('/rte/:filename', function(req , res){
 
     let file = req.params.filename;
 
-<<<<<<< HEAD
     //console.log(file);
 
     let c = lib.rte_struct_to_html(file);
     //console.log(c);
-=======
-    console.log(file);
-
-    let c = lib.rte_struct_to_html(file);
-    console.log(c);
->>>>>>> 46a3d96151354c01616859af4c78e0f1a39313c3
 
 
    res.send(c);
@@ -144,23 +130,15 @@ app.get('/trk/:filename', function(req , res){
 
     let file = req.params.filename;
 
-<<<<<<< HEAD
     //console.log(file);
 
     let c = lib.trk_struct_to_html(file);
     //console.log(c);
-=======
-    console.log(file);
-
-    let c = lib.trk_struct_to_html(file);
-    console.log(c);
->>>>>>> 46a3d96151354c01616859af4c78e0f1a39313c3
 
 
    res.send(c);
 });
 
-<<<<<<< HEAD
 app.get('/gpxcreate', function(req , res){
 
 
@@ -169,23 +147,12 @@ app.get('/gpxcreate', function(req , res){
     console.log(file);
 
    let c = lib.html_to_gpx_struct(file, req.query.gpxJSON);
-=======
-app.post('/gpxcreate/:filename/:gpxJSON', function(req , res){
-
-
-    let file = req.params.filename;
-
-    console.log(file);
-
-    let c = lib.html_to_gpx_struct(file, req.params.gpxJSON);
->>>>>>> 46a3d96151354c01616859af4c78e0f1a39313c3
     console.log(c);
 
 
    res.send(c);
 });
 
-<<<<<<< HEAD
 app.get('/rename-rte', function(req , res){
 
 
@@ -264,20 +231,4 @@ app.get('/add-route', function(req , res){
     
 	res.send('Success');
 });
-=======
-app.post('/rename/:filename/:rteJSON', function(req , res){
-
-
-    let file = req.params.filename;
-
-    console.log(file);
-
-    let c = lib.rename_route(file, req.params.rteJSON);
-    console.log(c);
-
-
-   res.send(c);
-});
-
->>>>>>> 46a3d96151354c01616859af4c78e0f1a39313c3
 
