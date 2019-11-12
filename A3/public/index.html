@@ -83,15 +83,11 @@
 				 
 				</tbody>
 			  </table>
-			  <form enctype="multipart/form-data" method="post" action="/uploads">
-				  <div class="custom-file">
-					<input type="file" accept=".gpx" class="custom-file-input" id="customFile">
-					<label class="custom-file-label" for="customFile">Choose file</label>
-				  </div>
-				  <div class="mt-3">
-				  <button type="submit" class="btn btn-dark">Upload</button>
-				</div>
-				</form>
+			 <form enctype="multipart/form-data" method="post" action="/upload">
+			<input type="file" accept=".gpx"  id="upload-file" name="uploadFile" value="Upload-File" required>
+			<input type="submit" id="submit-file" name="Submit-File" value="Upload">
+			</form>
+				
 				<br/>
 			</div>
 		</div>
@@ -141,7 +137,11 @@
 					<th>Loop</th>
 				  </tr>
 				</thead>
+<<<<<<< HEAD
+				<tbody id="rte-table">
+=======
 				<tbody>
+>>>>>>> 46a3d96151354c01616859af4c78e0f1a39313c3
 				 
 				</tbody>
 			  </table>
@@ -158,7 +158,11 @@
 					<th>Loop</th>
 				  </tr>
 				</thead>
+<<<<<<< HEAD
+				<tbody  id="trk-table">
+=======
 				<tbody>
+>>>>>>> 46a3d96151354c01616859af4c78e0f1a39313c3
 				  
 				</tbody>
 			  </table>
@@ -180,8 +184,8 @@
 					  <input class="form-check-input" type="radio" name="rename-option" id="track-option" value="">
 					  <label class="form-check-label" for="track-option">Trk</label>
 					</div>
-				  <label class="sr-only" for="old-name">Old Name</label>
-				  <input type="text" class="form-control mb-2 mr-sm-2" id="old-name" placeholder="Old Name">
+				  <label class="sr-only" for="old-name">Component(Table Row)</label>
+				  <input type="number" class="form-control mb-2 mr-sm-2" id="component" placeholder="Table Row Num">
 
 				  <label class="sr-only" for="new-name">New Name</label>
 				  <div class="input-group mb-2 mr-sm-2">
@@ -234,7 +238,7 @@
     </br>
 		<div id="add-route">
 		<h3>Add Route</h3>
-			<form>
+			<form id="add-rte">
 				<div class="form-group row">
 				<label for="files-for-rte" class="col-sm-2 col-form-label">File To Add Route To:</label>
 				<div class="col-sm-10">
@@ -249,29 +253,17 @@
 				  <input type="text" class="form-control" id="rte-name" placeholder="Route Name">
 				</div>
 			  </div>
-			  <div class="form-group row">
-				<label for="rte-desc" class="col-sm-2 col-form-label">Description:</label>
-				<div class="col-sm-10">
-				<textarea class="form-control" id="rte-desc" rows="3" placeholder="Enter description here..."></textarea>
-				</div>
-			  </div>
 			  <fieldset class="form-group">
 				<div class="form-group dynamic-element" style="display:none">
 							  <div class="row">
 							  <div class="col-md-2"></div>
 								
 							  <!-- Replace these fields -->
-							  <div class="col-md-2">
-								  <input type="text" class="form-control" id="rtept-name" placeholder="Name">
+							  <div class="col-md-4">
+								  <input type="text" class="form-control rtept-lat" id="rtept-lat" placeholder="Latitude" name="rtept-lat[]">
 							  </div>
-							  <div class="col-md-2">
-								  <input type="text" class="form-control" id="rtept-lat" placeholder="Latitude">
-							  </div>
-							  <div class="col-md-2">
-								  <input type="text" class="form-control" id="rtept-long" placeholder="Longitude">
-							  </div>
-							   <div class="col-md-2">
-								  <input type="text" class="form-control" id="rtept-ele" placeholder="Elevation">
+							  <div class="col-md-4">
+								  <input type="text" class="form-control rtept-long" id="rtept-long" placeholder="Longitude" name="rtept-long[]">
 							  </div>
 								<!-- End of fields-->
 								<div class="col-md-1">
@@ -313,7 +305,7 @@
     <br/>
     <div id="find-inbetween">
 		<h3>Find Path Between</h3>
-		<form>
+		<form id="path-between">
 		  <div class="row">
 				<div class="col">
 				  <input type="text" class="form-control" id="start-lat" placeholder="Start Latitude">
@@ -327,7 +319,7 @@
 				  <input type="text" class="form-control" id="end-lat" placeholder="End Latitude">
 				</div>
 				<div class="col">
-				  <input type="text" class="form-control" id="end-lat" placeholder="End Longitude">
+				  <input type="text" class="form-control" id="end-long" placeholder="End Longitude">
 				</div>
 		  </div>
 		  <div class="row">
@@ -342,6 +334,52 @@
 				</div>
 			  </div>
 		</form>
+		<ul class="nav nav-pills nav-fill">
+			  <li class="nav-item">
+				<a class="nav-link active" data-toggle="pill" href="#rtes-between">Routes</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" data-toggle="pill" href="#trks-between">Tracks</a>
+			  </li>
+			</ul>
+
+			<!-- Tab panes -->
+				<div class="tab-content">
+				<div id="rtes-between" class="container tab-pane active"><br>
+				  <h5>Routes</h5>
+				  <p><table class="table table-hover">
+				<thead>
+				  <tr>
+					<th>Component</th>
+					<th>Name</th>
+					<th>Number of Points</th>
+					<th>Length</th>
+					<th>Loop</th>
+				  </tr>
+				</thead>
+				<tbody  id="rte-bt-table">
+				 
+				</tbody>
+			  </table>
+			  </p>
+				</div>
+				<div id="trks-between" class="container tab-pane fade"><br>
+				  <h5>Tracks</h5>
+				  <p><table class="table table-hover">
+				<thead>
+				  <tr>
+					<th>Component</th>
+					<th>Name</th>
+					<th>Length</th>
+					<th>Loop</th>
+				  </tr>
+				</thead>
+				<tbody  id="trk-bt-table">
+				  
+				</tbody>
+			  </table>
+			  </p>
+			  </div>
     </div>
  
     <!-- Find path between ends-->
