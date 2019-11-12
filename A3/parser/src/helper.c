@@ -655,6 +655,109 @@ char ** new_array(void)
   {
     allocate[i] = calloc(5000, sizeof(char));
   }
+<<<<<<< HEAD
+
+  return allocate;
+}
+
+void custom_strcpy(char * dest, char * scr, int start_index, int end_index)
+{
+  if(dest == NULL || scr == NULL) return;
+
+  if(start_index < 0) return;
+
+  if(end_index > strlen(scr)) return;
+
+  int counter = 0;
+
+  for(int i = start_index; i < end_index; i++)
+  {
+    dest[counter] = scr[i];
+    counter++;
+  }
+}
+
+char * gpx_struct_to_html(char * filename)
+{
+	char * dir = new_string();
+	strcpy(dir, "uploads/");
+	strcat(dir, filename);
+	
+	GPXdoc * gdoc = createGPXdoc(dir);
+	
+	bool valid = validateGPXDoc(gdoc, "gpx.xsd");
+	if(valid == false) return "Invalid file";
+	
+	char * str = GPXtoJSON(gdoc);
+	
+	deleteGPXdoc(gdoc);
+	free_string(dir);
+	
+	return str;
+}
+
+char * trk_struct_to_html(char * filename)
+{
+	char * dir = new_string();
+	strcpy(dir, "uploads/");
+	strcat(dir, filename);
+	
+	GPXdoc * gdoc = createGPXdoc(dir);
+	
+	bool valid = validateGPXDoc(gdoc, "gpx.xsd");
+	if(valid == false) return "Invalid track";
+	
+	char * str = trackListToJSON(gdoc->tracks);
+	
+	deleteGPXdoc(gdoc);
+	free_string(dir);
+	
+	return str;
+}
+
+char * rte_struct_to_html(char * filename)
+{
+	char * dir = new_string();
+	strcpy(dir, "uploads/");
+	strcat(dir, filename);
+	
+	GPXdoc * gdoc = createGPXdoc(dir);
+	
+	bool valid = validateGPXDoc(gdoc, "gpx.xsd");
+	if(valid == false) return "Invalid route";
+	
+	char * str = routeListToJSON(gdoc->routes);
+	
+	deleteGPXdoc(gdoc);
+	free_string(dir);
+	
+	return str;
+}
+
+char * html_to_gpx_struct(char * filename, char * gpxJSON)
+{
+	char * dir = new_string();
+	strcpy(dir, "uploads/");
+	strcat(dir, filename);
+	
+	GPXdoc * gdoc = JSONtoGPX(gpxJSON);
+	
+	printf("infunc: %s\n", GPXdocToString(gdoc));
+	printf("infunc: %s\n", dir);
+
+	bool write = writeGPXdoc(gdoc, dir);
+	if(write == false) return "Error writing to file";
+	
+	char * str = GPXtoJSON(gdoc);
+	
+	deleteGPXdoc(gdoc);
+	free_string(dir);
+	
+	return str;
+}
+
+void rename_route(char * filename, char * newn, int index)
+=======
 
   return allocate;
 }
@@ -751,6 +854,7 @@ char * html_to_gpx_struct(char * filename, char * gpxJSON)
 }
 
 char * rename_route(char * filename, char * rteJSON)
+>>>>>>> 46a3d96151354c01616859af4c78e0f1a39313c3
 {
 	char * dir = new_string();
 	strcpy(dir, "uploads/");
@@ -759,6 +863,94 @@ char * rename_route(char * filename, char * rteJSON)
 	GPXdoc * gdoc = createGPXdoc(dir);
 
 	bool valid = validateGPXDoc(gdoc, "gpx.xsd");
+<<<<<<< HEAD
+	if(valid == false) return;
+	
+	//change by index instead
+	ListIterator itr = createIterator(gdoc->routes);
+
+	Route * data = nextElement(&itr);
+	int i = 0;
+	while (data != NULL)
+	{
+		if(i == index) strcpy(data->name, newn);
+		else i++;
+		data = nextElement(&itr);
+	}
+	
+	
+	//printf("infunc: %s\n", newname->name);
+	//addRoute(gdoc, newname);
+	
+	
+	bool write = writeGPXdoc(gdoc, dir);
+	if(write == false) return;
+	
+	
+	deleteGPXdoc(gdoc);
+	free_string(dir);
+}
+
+void rename_track(char * filename, char * newn, int index)
+{
+	char * dir = new_string();
+	strcpy(dir, "uploads/");
+	strcat(dir, filename);
+	
+	GPXdoc * gdoc = createGPXdoc(dir);
+
+	bool valid = validateGPXDoc(gdoc, "gpx.xsd");
+	if(valid == false) return;
+	
+	//change by index instead
+	ListIterator itr = createIterator(gdoc->tracks);
+
+	Track * data = nextElement(&itr);
+	int i = 0;
+	while (data != NULL)
+	{
+		if(i == index) strcpy(data->name, newn);
+		else i++;
+		data = nextElement(&itr);
+	}
+	
+	
+	bool write = writeGPXdoc(gdoc, dir);
+	if(write == false) return;
+	
+	
+	deleteGPXdoc(gdoc);
+	free_string(dir);
+}
+
+char * all_rtes_between(char * filename, float start_lat, float start_long, float end_lat, float end_long, float tol)
+{
+	char * dir = new_string();
+	strcpy(dir, "uploads/");
+	strcat(dir, filename);
+	
+	GPXdoc * gdoc = createGPXdoc(dir);
+	
+	List * routes = getRoutesBetween(gdoc, start_lat, start_long, end_lat, end_long, tol);
+	char * rtes = routeListToJSON(routes);
+	
+	deleteGPXdoc(gdoc);
+	free_string(dir);
+	
+	return rtes;
+}
+
+char * all_trks_between(char * filename, float start_lat, float start_long, float end_lat, float end_long, float tol)
+{
+	char * dir = new_string();
+	strcpy(dir, "uploads/");
+	strcat(dir, filename);
+	
+	GPXdoc * gdoc = createGPXdoc(dir);
+	
+	List * tracks = getTracksBetween(gdoc, start_lat, start_long, end_lat, end_long, tol);
+	char * trks = trackListToJSON(tracks);
+=======
 	if(valid == false) return "Invalid file";
 	
 	char * new = new_string();
@@ -772,9 +964,97 @@ char * rename_route(char * filename, char * rteJSON)
 	
 	Route * oldname = getRoute(gdoc, old);
 	deleteRoute(oldname);
+>>>>>>> 46a3d96151354c01616859af4c78e0f1a39313c3
 	
 	deleteGPXdoc(gdoc);
 	free_string(dir);
 	
+<<<<<<< HEAD
+	return trks;
+}
+
+void add_route_from_form(char * filename, char * route_name, char * waypoints, int length)
+{
+	char * dir = new_string();
+	strcpy(dir, "uploads/");
+	strcat(dir, filename);
+	
+	char ** wyps = new_array();
+	char * temp = new_string();
+	
+	strcpy(temp, waypoints);
+	temp[strlen(temp) + 1] = '\0';
+	//printf("\ttemp = %s\n", temp);
+	
+	int c = 0, i = 0, brace = 0, start = 0, end = 0;
+	
+	while(temp[i] != ']')
+	{
+		if(temp[i] == '[')
+		{
+			//printf("found opening brace\n");
+			i++;
+			continue;
+		}
+		
+		if(temp[i] == ',')
+		{
+			i++;
+			continue;
+		}
+			
+				if(temp[i] == '{')
+				{
+					//printf("found an opening quotation mark\n");
+					brace = 1;
+					start = i;
+					end = i + 2;
+					i++;
+			
+					while(brace != 0)
+					{
+						while(temp[i] != '}')
+						{
+							end++;
+							i++;
+							continue;
+						}
+					
+						//printf("found an closing quotation mark\n");
+						brace = 0;
+					}
+
+					custom_strcpy(wyps[c], temp, start, end);
+		
+					//printf("the word is %s\n\n", wyps[c]);
+					c++;
+				}
+			
+			i++;
+		
+	}
+	
+	
+	GPXdoc * gdoc = createGPXdoc(dir);
+	
+	Route * rte = JSONtoRoute(route_name);
+	
+	for(int j = 0; j < length; j++)
+	{
+		Waypoint * wp = JSONtoWaypoint(wyps[j]);
+		addWaypoint(rte, wp);
+	}
+	
+	addRoute(gdoc, rte);
+	
+	bool write = writeGPXdoc(gdoc, dir);
+	if(write == false) return;
+	
+	deleteGPXdoc(gdoc);
+	free_string(dir);
+	free_string(temp);
+	free_array((void**)wyps);
+=======
 	return "Success";
+>>>>>>> 46a3d96151354c01616859af4c78e0f1a39313c3
 }
