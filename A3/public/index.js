@@ -48,36 +48,21 @@ $(document).ready(function() {
             for(var i = 0; i < data.length; i++)
             {
 				let json = JSON.parse(data[i]);
-<<<<<<< HEAD
 				$('#log-table').append("<tr><th scope=\"row\"><a href=\"uploads/"+ json["filename"] + "\">" + json["filename"] + "</a></th><td>" + json["version"] + "</td><td>" + json["creator"] + "</td><td>" + json["numWaypoints"] + "</td><td>" + json["numRoutes"] + "</td><td>" + json["numTracks"] + "</td>");
 				$('#gpx-dropdown').append("<option value=\"" + json["filename"] + "\"" + ">" + json["filename"] + "</option>");
 				$('#files-for-rte').append("<option>" + json["filename"] + "</option>");
 				alert('Successfully added ' + json["filename"] + ' to View Panel');
-=======
-				$('#log-table').append("<tr><th scope=\"row\"><a href=\"uploads/"+ json["filename"] + "\">" + json["filename"] + "</a></th><td>" + json["version"] + "</td><td>" + json["creator"] + "</td><td>" + json["numWaypoints"] + "</td><td>" + json["numRoutes"] + "</td><td>" + json["numTracks"]);
-				$('#gpx-dropdown').append("<option value=\"" + json["filename"] + "\"" + ">" + json["filename"] + "</option>");
-				$('#files-for-rte').append("<option>" + json["filename"] + "</option>");
-				$('#alert').html("<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"> Successfully added " + json["filename"] + " to View Panel. <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>");
->>>>>>> 46a3d96151354c01616859af4c78e0f1a39313c3
 			}
         },
         fail: function(error) {
             // Non-200 return, do something with error
-<<<<<<< HEAD
 			alert('Could not add ' + json["filename"] + ' to View Panel');
-=======
-            $('#alert').html("<div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\"> Could not add " + json["filename"] + " to View Panel. <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>");
->>>>>>> 46a3d96151354c01616859af4c78e0f1a39313c3
             console.log(error); 
         }
     });
     ///////////////
     
-<<<<<<< HEAD
     ///////////////displaying routes and tracks
-=======
-    ///////////////
->>>>>>> 46a3d96151354c01616859af4c78e0f1a39313c3
     $('#gpx-dropdown').change(function(){
 		let filename = $("#gpx-dropdown option:selected").text();
 		
@@ -97,22 +82,13 @@ $(document).ready(function() {
             {
 				console.log(data[i]);
 				
-<<<<<<< HEAD
 				$("#rte-table").append("<tr><td> Route " + (i+1) + "</td><td id=\"rte-"+data[i]["numPoints"]+"\">" + data[i]["name"] + "</td><td>" + data[i]["numPoints"] + "</td><td>" + data[i]["len"] + "</td><td>" + data[i]["loop"] + "</td></tr>");
 				alert("Successfully displayed Routes in " + filename + " to GPX Panel");
-=======
-				$("#rte-table").append("<tr><td> Route " + (i+1) + "</td><td>" + data[i]["name"] + "</td><td>" + data[i]["numPoints"] + "</td><td>" + data[i]["len"] + "</td><td>" + data[i]["loop"] + "</td></tr>");
-				$('#alert').html("<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"> Successfully displayed Routes in " + filename + " to GPX Panel. <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>");
->>>>>>> 46a3d96151354c01616859af4c78e0f1a39313c3
 			}
         },
         fail: function(error) {
             // Non-200 return, do something with error
-<<<<<<< HEAD
 			alert("Could not display Routes in " + filename + " to GPX Panel");
-=======
-            $('#alert').html("<div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\"> Could not display Routes in " + filename + " to GPX Panel. <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>");
->>>>>>> 46a3d96151354c01616859af4c78e0f1a39313c3
             console.log(error); 
 			}
 		});
@@ -129,20 +105,12 @@ $(document).ready(function() {
 				console.log(data[i]);
 				
 				$("#trk-table").append("<tr><td> Track " + (i+1) + "</td><td>" + data[i]["name"] + "</td><td>" + data[i]["len"] + "</td><td>" + data[i]["loop"] + "</td></tr>");
-<<<<<<< HEAD
 				alert("Successfully displayed Tracks in " + filename + " to GPX Panel");
-=======
-				$('#alert').html("<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"> Successfully displayed Tracks in " + filename + " to GPX Panel. <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>");
->>>>>>> 46a3d96151354c01616859af4c78e0f1a39313c3
 			}
         },
         fail: function(error) {
             // Non-200 return, do something with error
-<<<<<<< HEAD
 			alert("Could not display Tracks in " + filename + " to GPX Panel");
-=======
-            $('#alert').html("<div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\"> Could not display Tracks in " + filename + " to GPX Panel. <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>");
->>>>>>> 46a3d96151354c01616859af4c78e0f1a39313c3
             console.log(error); 
 			}
 		});
@@ -156,7 +124,6 @@ $(document).ready(function() {
 			{
 				console.log("want route changed");
 				
-<<<<<<< HEAD
 				let index = parseInt($("#component").val());
 				let newname = $("#new-name").val();
 				console.log(filename);
@@ -426,87 +393,6 @@ $(document).ready(function() {
 	});
     /////////////
     
-=======
-				let rteObj = new Object();
-				rteObj.oldname = $("#old-name").val();
-				rteObj.newname = $("#new-name").val();
-				
-				let rteJSON = JSON.stringify(rteObj);
-				console.log(rteJSON);
-				
-				$.ajax({
-  				type: 'post',            //Request type
-  				dataType: 'text',       //Data type - we will use JSON for almost everything
-  				url: '/rename/' + filename + rteJSON,   //The server endpoint we are connecting to
-  				success: function (data) {
-
-				$("#alert").append("<div class=\"alert alert-success\" role=\"alert\">" + "Successfully renamed " + rteObj.oldname + "to " + rteObj.newname + "in " + filename + "</div>");
-
-						console.log(data);
-					},
-					fail: function(error) {
-						// Non-200 return, do something with error
-				$("#alert").append("<div class=\"alert alert-danger\" role=\"alert\">" + "Could not rename " + rteObj.oldname + "to " + rteObj.newname + "in " + filename + "</div>");
-
-						console.log(error);
-					}
-				});
-			}
-		});
-	
-	});
-    
-    //////////////
-    
-    //////////////making new gpx file
-    $('#new-gpx').submit(function(e){
-		e.preventDefault();
-		
-		let filename = $("#fname").val() + ".gpx";
-		console.log(filename);
-		
-		
-		let gpxObj = new Object();
-		gpxObj.version = $("#version").val();
-		gpxObj.creator = $("#creator").val();
-		
-		let gpxJSON = JSON.stringify(gpxObj);
-		console.log(gpxJSON); //it adds quotation marks around the version nmuber. need to remove
-		
-		$.ajax({
-  				type: 'post',            //Request type
-  				dataType: 'text',       //Data type - we will use JSON for almost everything
-  				url: '/gpxcreate/' + filename + gpxJSON,   //The server endpoint we are connecting to
-  				success: function (data) {
-
-            $("#alert").append("<div class=\"alert alert-success\" role=\"alert\">" + "Successfully created " + filename + "</div>");
-
-  					console.log(data);
-  				},
-  				fail: function(error) {
-  					// Non-200 return, do something with error
-            $("#alert").append("<div class=\"alert alert-danger\" role=\"alert\">" + "Could not create " + filename + "</div>");
-
-  					console.log(error);
-  				}
-  			});
-		
-	});
-    
-    //////////////
-    
-
-    // Event listener form example , we can use this instead explicitly listening for events
-    // No redirects if possible
-    $('#someform').submit(function(e){
-        $('#blah').html("Form has data: "+$('#entryBox').val());
-        e.preventDefault();
-        //Pass data to the Ajax call, so it gets passed to the server
-        $.ajax({
-            //Create an object for connecting to another waypoint
-        });
-    });
->>>>>>> 46a3d96151354c01616859af4c78e0f1a39313c3
     
     //last one. dont close past this
 });
