@@ -1,0 +1,110 @@
+html {
+    width: 80%;
+    height: 100%;
+    min-height: 100%;
+    margin: 0 auto;
+    font-size: 16px;
+    background-color: #FFFFFF;
+}
+body {
+    height: 100%;
+    min-height: 100%;
+    line-height: 1.75;
+    background-color: #FFFFFF;
+}
+div {
+	padding: 5px 5px 5px 5px;
+}
+a:link:hover {
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    text-decoration: underline;
+    cursor: pointer;
+    cursor: hand;
+}
+input[type=submit], button {
+    cursor: pointer;
+    cursor: hand;
+}
+@media(max-width: 900px) {
+    html {
+        font-size: 14px !important;
+        width: 80% !important;
+    }
+}
+@media(max-width: 480px) {
+    html {
+        font-size: 12px !important;
+        width: 90% !important;
+    }
+}
+@media(max-width: 320px) {
+    html {
+        font-size: 12px !important;
+        width: 100% !important;
+    }
+}
+
+.wp-fields {
+	opacity: 0;
+	max-height: 0;
+	overflow: hidden;
+}
+
+input[type="checkbox"]:checked ~ .wp-fields {
+  opacity: 1;
+  max-height: 100px; /* little bit of a magic number :( */
+  overflow: visible;
+}
+
+.content{
+  margin-top:50px;
+}
+
+.form-container{
+  padding:10px;
+  padding-bottom:25px;
+  margin:0 auto;
+  margin-top:20px;
+  width:50%;
+  border-radius:20px;
+  background-color: #ececec;
+}
+
+.add-one{
+  color:green;
+  text-align:center;
+  font-weigth:bolder;
+  cursor:pointer;
+  margin-top:10px;
+}
+
+.delete{
+  color:white;
+  background-color:rgb(231, 76, 60);
+  text-align:center;
+  margin-top:6px;
+  font-weight:700;
+  border-radius:5px;
+  min-width:20px;
+  cursor:pointer;
+}
+
+#singlebutton{
+  width:100%;
+  margin-top:20px;
+}
+
+.title{
+  text-align:center;
+  font-size:40px;
+  margin-bottom:40px;
+}
+
+.dynamic-element{
+  margin-bottom:0px;
+}
+
+
+

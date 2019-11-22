@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Anemme's GPX Viewer</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="GPX Viewer">
+    <meta name="keywords" content="gpx, viewer">
+    <meta name="author" content="Anemmeabasi Bassey">
+    <!-- Load jquery, bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <!-- Custom CSS End -->
+</head>
+<body>
+	<!-- fixed nav bar -->
+			 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+		  <div class="container">
+					<a class="navbar-brand" href="#">GPXVIEWR</a>
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		  </button>
+		  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+			<ul class="navbar-nav">
+			  <li class="nav-item active">
+				<a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" href="#file-log">File Log Panel</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" href="#gpx-panel">GPX View Panel</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" href="#create-gpx">Create GPX file</a>
+			  </li>
+			  <li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				  Additional Functions
+				</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+				  <a class="dropdown-item" href="#find-inbetween">Find Routes Bewteen</a>
+				  <a class="dropdown-item" href="#add-route">Add Route</a>
+				  <a class="dropdown-item" href="#rename">Rename Route/Track</a>
+				</div>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" href="#A4">Database</a>
+			  </li>
+			</ul>
+		  </div>
+		  </div>
+		</nav> 
+		
+		</br></br>
+		<div class="content">
+			<!-- Denis's stuff begins-->
+			
+		<!-- Denis's stuff ends-->
+		
+		<!-- File Log Panel begins-->
+		<div id="file-log">
+			<h3>File Log Panel</h3> <br> 
+			<div class="container">    
+			  <table class="table table-hover" id="log-table">
+				<thead>
+				  <tr>
+					<th>Filename (Click to download)</th>
+					<th>Version</th>
+					<th>Creator</th>
+					<th>Number of Waypoints</th>
+					<th>Number of Routes</th>
+					<th>Number of Tracks</th>
+				  </tr>
+				</thead>
+				<tbody>
+				 
+				</tbody>
+			  </table>
+			 <form enctype="multipart/form-data" method="post" action="/upload">
+			<input type="file" accept=".gpx"  id="upload-file" name="uploadFile" value="Upload-File" required>
+			<input type="submit" id="submit-file" name="Submit-File" value="Upload">
+			</form>
+				
+				<br/>
+			</div>
+		</div>
+		</br>
+    </div>
+    </br>
+    <!-- File Log Panel ends-->
+    
+    <!-- GPX Panel begins-->
+    </br>
+    <div id="gpx-panel">
+		<h3>GPX View Panel</h3><br>
+		<p>Select a file to view summary:  
+			<div class="container mt-3">
+			  <form>
+				<select name="files" class="custom-select mb-3" id="gpx-dropdown">
+				  <option selected>-- None Selected --</option>
+				</select>
+			  </form>
+			</div>
+			</div> 
+		</p>
+			<!-- Nav tabs -->
+			<ul class="nav nav-pills nav-fill">
+			  <li class="nav-item">
+				<a class="nav-link active" data-toggle="pill" href="#home">Routes</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" data-toggle="pill" href="#menu1">Tracks</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" data-toggle="pill" href="#menu2">Attributes</a>
+			  </li>
+			</ul>
+
+			<!-- Tab panes -->
+				<div class="tab-content">
+				<div id="home" class="container tab-pane active"><br>
+				  <h5>Routes</h5>
+				  <p><table class="table table-hover">
+				<thead>
+				  <tr>
+					<th>Component</th>
+					<th>Name</th>
+					<th>Number of Points</th>
+					<th>Length</th>
+					<th>Loop</th>
+				  </tr>
+				</thead>
+				<tbody id="rte-table">
+				 
+				</tbody>
+			  </table>
+			  </p>
+				</div>
+				<div id="menu1" class="container tab-pane fade"><br>
+				  <h5>Tracks</h5>
+				  <p><table class="table table-hover">
+				<thead>
+				  <tr>
+					<th>Component</th>
+					<th>Name</th>
+					<th>Length</th>
+					<th>Loop</th>
+				  </tr>
+				</thead>
+				<tbody  id="trk-table">
+				  
+				</tbody>
+			  </table>
+			  </p>
+				</div>
+				<div id="menu2" class="container tab-pane fade"><br>
+				  <h5>Attributes</h5>
+				  <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+				</div>
+			  </div>
+			  <div id="rename">
+			  <p>
+			  <form class="form-inline">
+				  <div class="form-check form-check-inline">
+					  <input class="form-check-input" type="radio" name="rename-option" id="route-option" value="">
+					  <label class="form-check-label" for="route-option">Rte</label>
+					</div>
+					<div class="form-check form-check-inline">
+					  <input class="form-check-input" type="radio" name="rename-option" id="track-option" value="">
+					  <label class="form-check-label" for="track-option">Trk</label>
+					</div>
+				  <label class="sr-only" for="old-name">Component(Table Row)</label>
+				  <input type="number" class="form-control mb-2 mr-sm-2" id="component" placeholder="Table Row Num">
+
+				  <label class="sr-only" for="new-name">New Name</label>
+				  <div class="input-group mb-2 mr-sm-2">
+					<input type="text" class="form-control" id="new-name" placeholder="New Name">
+				  </div>
+
+				  <button type="submit" class="btn btn-dark mb-2">Rename</button>
+				</form>
+				</p>
+				</div>
+			</div>
+			</br>
+    </div><br/>
+    <!-- GPX Panel ends-->
+    
+    <!-- Create GPX begins-->
+    </br>
+		<div id="create-gpx">
+		<h3>Create GPX file</h3>
+			<form  id="new-gpx">
+			<div class="form-group row">
+			  <label class="control-label col-sm-2 col-form-label" for="fname">Filename:</label>
+			  <div class="col-sm-8">
+			  <input type="text" class="form-control" id="fname" placeholder="Enter Filename" name="fname" required>
+				</div>
+				<div class="input-group-append">
+				<div class="input-group-text">.gpx</div>
+					</div>
+			</div>
+			<div class="form-group row">
+			  <label class="control-label col-sm-2 col-form-label" for="version">Version:</label>
+			  <div class="col-sm-10">
+			  <input type="number" readonly class="form-control" id="version" placeholder="Enter Version" name="version" value="1.1"></div>
+			</div>
+			<div class="form-group row">
+			  <label class="control-label col-sm-2 col-form-label" for="creator">Creator:</label>
+			  <div class="col-sm-10">
+			  <input type="text" class="form-control" id="creator" placeholder="Enter Creator" name="creator" required></div>
+			</div>
+			
+			<div class="col-sm-10">
+			<button type="submit" class="btn btn-dark">Submit</button></div>
+		  </form>
+		  </br>
+		</div>
+		</br>
+    <!-- Create GPX ends-->
+    
+    <!-- Add routes begins-->
+    </br>
+		<div id="add-route">
+		<h3>Add Route</h3>
+			<form id="add-rte">
+				<div class="form-group row">
+				<label for="files-for-rte" class="col-sm-2 col-form-label">File To Add Route To:</label>
+				<div class="col-sm-10">
+					<select name="files-for-rte" class="custom-select mb-3" id="files-for-rte">
+					  <option selected>-- None Selected --</option>
+					</select>
+					</div>
+				</div>
+				<div class="form-group row">
+				<label for="rte-name" class="col-sm-2 col-form-label">Route Name:</label>
+				<div class="col-sm-10">
+				  <input type="text" class="form-control" id="rte-name" placeholder="Route Name">
+				</div>
+			  </div>
+			  <fieldset class="form-group">
+				<div class="form-group dynamic-element" style="display:none">
+							  <div class="row">
+							  <div class="col-md-2"></div>
+								
+							  <!-- Replace these fields -->
+							  <div class="col-md-4">
+								  <input type="text" class="form-control rtept-lat" id="rtept-lat" placeholder="Latitude" name="rtept-lat[]">
+							  </div>
+							  <div class="col-md-4">
+								  <input type="text" class="form-control rtept-long" id="rtept-long" placeholder="Longitude" name="rtept-long[]">
+							  </div>
+								<!-- End of fields-->
+								<div class="col-md-1">
+								  <p class="delete">x</p>
+								</div>
+							  </div>
+							</div>
+							<!-- END OF HIDDEN ELEMENT -->
+
+
+							  <!-- Form Name -->
+							  <legend class="title"><h6>Route Waypoints</h6></legend>
+
+							  <div class="dynamic-stuff">
+								<!-- Dynamic element will be cloned here -->
+								<!-- You can call clone function once if you want it to show it a first element-->
+							  </div>
+							  
+							  <!-- Button -->
+							  <div class="form-group">
+								<div class="row">
+								  <div class="col-md-12">
+									  <p class="add-one">+add route point</p>
+								  </div>
+							  </div>
+			  </fieldset>
+			  <div class="form-group row">
+				<div class="col-sm-10">
+				  <button type="submit" class="btn btn-dark">Submit</button></div>
+				</div>
+			  </div>
+			</form>
+			<br/>
+		</div>
+		<br/>
+    <!-- Add routes ends-->
+    
+    <!-- Find path between begins-->
+    <br/>
+    <div id="find-inbetween">
+		<h3>Find Path Between</h3>
+		<form id="path-between">
+		  <div class="row">
+				<div class="col">
+				  <input type="text" class="form-control" id="start-lat" placeholder="Start Latitude">
+				</div>
+				<div class="col">
+				  <input type="text" class="form-control" id="start-long" placeholder="Start Longitude">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+				  <input type="text" class="form-control" id="end-lat" placeholder="End Latitude">
+				</div>
+				<div class="col">
+				  <input type="text" class="form-control" id="end-long" placeholder="End Longitude">
+				</div>
+		  </div>
+		  <div class="row">
+					<label for="tolerance" class="col-sm-2 col-form-label">Desired Accuracy:</label>
+				<div class="col-sm-10">
+				  <input type="text" class="form-control" id="tolerance" placeholder="Comparison Accuracy">
+				</div>
+		  </div>
+		  <div class="form-group row">
+				<div class="col-sm-10">
+				  <button type="submit" class="btn btn-dark">Find Path</button></div>
+				</div>
+			  </div>
+		</form>
+		<ul class="nav nav-pills nav-fill">
+			  <li class="nav-item">
+				<a class="nav-link active" data-toggle="pill" href="#rtes-between">Routes</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" data-toggle="pill" href="#trks-between">Tracks</a>
+			  </li>
+			</ul>
+
+			<!-- Tab panes -->
+				<div class="tab-content">
+				<div id="rtes-between" class="container tab-pane active"><br>
+				  <h5>Routes</h5>
+				  <p><table class="table table-hover">
+				<thead>
+				  <tr>
+					<th>Component</th>
+					<th>Name</th>
+					<th>Number of Points</th>
+					<th>Length</th>
+					<th>Loop</th>
+				  </tr>
+				</thead>
+				<tbody  id="rte-bt-table">
+				 
+				</tbody>
+			  </table>
+			  </p>
+				</div>
+				<div id="trks-between" class="container tab-pane fade"><br>
+				  <h5>Tracks</h5>
+				  <p><table class="table table-hover">
+				<thead>
+				  <tr>
+					<th>Component</th>
+					<th>Name</th>
+					<th>Length</th>
+					<th>Loop</th>
+				  </tr>
+				</thead>
+				<tbody  id="trk-bt-table">
+				  
+				</tbody>
+			  </table>
+			  </p>
+			  </div>
+    </div>
+	</br></br>
+    <!-- Find path between ends-->
+    
+    <!-- A4 functionality begins-->
+    <div id="A4">
+		<h3>Database Queries</h3>
+			
+			<div class="card-columns">
+			  <div class="card border-secondary">
+				<div class="card-body">
+				  <h5 class="card-title">Login to DB</h5>
+				  <form id="db-login">
+					 <div class="form-group">
+						<label for="username">Username</label>
+						<input type="text" class="form-control" id="username" placeholder="Enter Username">
+					  </div>
+					  <div class="form-group">
+						<label for="password">Password</label>
+						<input type="password" class="form-control" id="password" placeholder="Enter Password">
+					  </div>
+					  <div class="form-group">
+						<label for="db-name">DB Name</label>
+						<input type="text" class="form-control" id="db-name" placeholder="Enter Database Name">
+					  </div>
+					<button type="submit" class="btn btn-dark" id="log-button">Login</button>
+					</form>
+				</div>
+			  </div>
+			  <div class="card border-secondary">
+				<div class="card-body">
+				  <h5 class="card-title">Display DB Status</h5>
+				 <p class="card-text" id="db-status">Database has (N1) files, (N2) routes and (N3) points.</p>
+				<button type="button" class="btn btn-outline-dark btn-block" id="db-refresh" disabled>Refresh</button>
+				</div>
+			  </div>
+
+			  <div class="card border-secondary">
+				<div class="card-body">
+				  <h5 class="card-title">General Functionality</h5>
+				 <button type="button" class="btn btn-outline-success btn-block" id="store-all" disabled>Store All Files</button>
+				<button type="button" class="btn btn-outline-danger btn-block" id="clear-all" disabled>Clear All Data</button>
+				</div>
+			  </div>
+			</div>
+			
+			<p><h5>Execute Queries - Routes</h5></p>
+			<p>All executions are automatically sorted by Name.</br>To sort by Length instead, check the box before hitting Execute.</p>
+		<div class="card-deck">
+			  <div class="card border-dark">
+				<div class="card-body">
+				  <h5 class="card-title">Display all routes</h5>
+				  <p class="card-text">
+						<form>
+							<div class="form-check form-check-inline">
+							  <input class="form-check-input" type="checkbox" id="sort-by-length" name="sort">
+							  <label class="form-check-label" for="sort-by-length">Length</label>
+							</div>
+							<button type="button" class="btn btn-dark" id="rte-sort-all" disabled>Execute</button>
+						</form></br>
+						<table class="table table-hover table-sm">
+						  <thead>
+							<tr>
+							  <th>Route Name</th>
+							  <th>Route Length</th>
+							</tr>
+						  </thead>
+						  <tbody  id="sort-all-rtes">
+							
+						  </tbody>
+						</table>
+						</p>
+				</div>
+			  </div>
+			  <div class="card border-dark">
+				<div class="card-body">
+				  <h5 class="card-title">Display the routes from a specific file</h5>
+				  <p class="card-text">
+				  <form class="form-inline">
+							<select name="files-db" class="custom-select mb-1" id="files-db">
+							  <option selected>-- Please Select File --</option>
+							</select>
+							<div class="form-check form-check-inline">
+							  <input class="form-check-input" type="checkbox" id="sort-length" name="sort">
+							  <label class="form-check-label" for="sort-length">Length</label>
+							</div>
+							  <button type="button" class="btn btn-dark"  id="file-route" disabled>Execute</button>
+							</form>
+							  
+							</br></br>
+						<table class="table table-hover table-sm">
+						  <thead>
+							<tr>
+							  <th>Route Name</th>
+							  <th>Route Length</th>
+							</tr>
+						  </thead>
+						  <tbody  id="sort-file-rte">
+							
+						  </tbody>
+						</table>
+						</p>
+				</div>
+			  </div>
+		</div>
+	
+		</br></br>
+		<p><h5>Execute Queries - Points</h5></p>
+		<div class="card-deck">
+			
+			 <div class="card border-dark">
+				<div class="card-body">
+				  <h5 class="card-title">Display all points of a specific route</h5>
+					<form class="form-inline"> 
+							<select name="points-db" class="custom-select mr-sm-2" id="points-db">
+							  <option selected>-- Please Select File --</option>
+							</select>
+							  <label class="sr-only" for="route-point-id">Route Name</label>
+							  <input type="text" class="form-control mb-2 mr-sm-2" id="route-point-name" placeholder="Route Name">
+							  <button type="button" class="btn btn-dark" id="route-point" disabled>Execute</button>
+							</form>
+							  
+							</br>
+						<table class="table table-hover table-sm">
+						  <thead>
+							<tr>
+							  <th>Point Index</th>
+							  <th>Point Name</th>
+							  <th>Latitude</th>
+							  <th>Longitude</th>
+							</tr>
+						  </thead>
+						  <tbody  id="sort-points-rte">
+							
+						  </tbody>
+						</table>
+				</div>
+			  </div>
+			  <div class="card border-dark">
+				<div class="card-body">
+				  <h5 class="card-title">Display all points from a specific file</h5>
+				  <form class="form-inline">
+							 
+							<select name="points-file-db" class="custom-select mb-1" id="points-file-db">
+							  <option selected>-- Please Select File --</option>
+							</select>
+							  <button type="button" class="btn btn-dark" id="point-file" disabled>Execute</button>
+							</form>
+							  
+							</br>
+						<table class="table table-hover table-sm">
+						  <thead>
+							<tr>
+							  <th>Point Index</th>
+							  <th>Point Name</th>
+							  <th>Latitude</th>
+							  <th>Longitude</th>
+							</tr>
+							  </thead>
+							  <tbody  id="sort-points-file">
+								
+							  </tbody>
+							</table>
+				</div>
+			  </div>
+			</div>
+	
+	</div>
+    <!-- A4 functionality ends-->
+    
+    <!-- Leave this here. Ends the content tag-->
+    </div>
+    <!-- Leave me at the bottom of body -->
+    <script src="/index.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
