@@ -69,6 +69,7 @@ void deleteGPXdoc(GPXdoc* doc)
     //free each track with list iterator then free whole list
     freeList(doc->tracks);
     free(doc);
+	
 }
 
 int getNumWaypoints(const GPXdoc* doc)
@@ -218,7 +219,7 @@ Waypoint* getWaypoint(const GPXdoc* doc, char* name)
 	Waypoint * data = nextElement(&itr);
 	while (data != NULL)
 	{
-		if (compareWaypoints(data, found_waypoint))
+		if (compareWaypoints(data, found_waypoint) == 0)
 			{
 				found_waypoint->longitude = data->longitude;
 				found_waypoint->latitude = data->latitude;
@@ -240,7 +241,7 @@ Waypoint* getWaypoint(const GPXdoc* doc, char* name)
 		data = nextElement(&inner_itr);
 			while (data != NULL)
 			{
-				if (compareWaypoints(data, found_waypoint))
+				if (compareWaypoints(data, found_waypoint) == 0)
 					{
 						found_waypoint->longitude = data->longitude;
 						found_waypoint->latitude = data->latitude;
